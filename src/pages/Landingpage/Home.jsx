@@ -1,11 +1,11 @@
-import About from "../../components/About/About";
-import AnnounceBanner from "../../components/AnnounceBanner/AnnounceBanner";
-import Footer from "../../components/Footer/Footer";
-import Hero from "../../components/Hero/Hero";
-import ListBot from "../../components/ListBot/ListBot";
-import Navbar from "../../components/Navbar/Navbar";
+import About from "../../components/LandingPage/About/About";
+import AnnounceBanner from "../../components/LandingPage/AnnounceBanner/AnnounceBanner";
+import Footer from "../../components/LandingPage/Footer/Footer";
+import Hero from "../../components/LandingPage/Hero/Hero";
+import ListBot from "../../components/LandingPage/ListBot/ListBot";
+import Navbar from "../../components/LandingPage/Navbar/Navbar";
 
-import Stats from "../../components/Stats/Stats";
+import Stats from "../../components/LandingPage/Stats/Stats";
 
 const Home = () => {
   return (

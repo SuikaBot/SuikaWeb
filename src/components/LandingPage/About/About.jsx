@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Zoom from "react-medium-image-zoom";
 
-import AboutImg from "../../assets/about-img.svg";
+import AboutImg from "../../../assets/about-img.svg";
 
 const About = () => {
   return (

@@ -4,7 +4,7 @@ import { Link } from "react-scroll";
 import Zoom from "react-medium-image-zoom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import SuikaLogo from "../../assets/favicon.svg";
+import SuikaLogo from "../../../assets/favicon.svg";
 
 const Hero = () => {
   return (

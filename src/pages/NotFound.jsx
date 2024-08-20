@@ -1,8 +1,8 @@
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import Navbar404 from "../components/Navbar/NavbarLink";
-import Footer from "../components/Footer/Footer";
+import Navbar404 from "../components/LandingPage/Navbar/NavbarLink";
+import Footer from "../components/LandingPage/Footer/Footer";
 import imgNotFound from "../assets/404.svg";
 import Zoom from "react-medium-image-zoom";
 

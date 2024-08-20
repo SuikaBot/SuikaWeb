@@ -8,36 +8,36 @@ const Stats = () => {
   const [group, setGroup] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const getPerson = async () => {
-    try {
-      const response = await axios.get("https://suika.pw/api/person");
-      setPerson(response.data.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const getPerson = async () => {
+  //   try {
+  //     const response = await axios.get("https://suika.pw/api/person");
+  //     setPerson(response.data.data);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  const getGroup = async () => {
-    try {
-      const response = await axios.get("https://suika.pw/api/group");
-      setGroup(response.data.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const getGroup = async () => {
+  //   try {
+  //     const response = await axios.get("https://suika.pw/api/group");
+  //     setGroup(response.data.data);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    getPerson();
-    getGroup();
-  }, []);
+  // useEffect(() => {
+  //   getPerson();
+  //   getGroup();
+  // }, []);
 
-  const personal = person;
-  const grup = group;
-  const total = personal + grup;
+  // const personal = person;
+  // const grup = group;
+  // const total = personal + grup;
 
   return (
     <div
@@ -49,19 +49,19 @@ const Stats = () => {
         <Stat
           mainIcon="fa-solid fa-user"
           title="Personal Chat"
-          number={personal}
+          number={""}
           loading={loading}
         />
         <Stat
           mainIcon="fa-solid fa-users"
           title="Grup Chat"
-          number={grup}
+          number={""}
           loading={loading}
         />
         <Stat
           mainIcon="fa-solid fa-users-rectangle"
           title="Total Pengguna"
-          number={total}
+          number={""}
           additional="+"
           loading={loading}
         />

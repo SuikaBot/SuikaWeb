@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-import Home from "../Landingpage/Home";
+import Home from "../Home";
 
 const SupportList = () => {
   const MySwal = withReactContent(Swal);

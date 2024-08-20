@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import SuikaIcon from "../../assets/suika-icon.svg";
+import SuikaIcon from "../../../assets/suika-icon.svg";
 
 // import Bot from "../Bot/Bot";
 // import BotGo from "../BotGo/BotGo";

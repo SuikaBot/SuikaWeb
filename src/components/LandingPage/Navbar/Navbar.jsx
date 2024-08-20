@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { Link } from "react-scroll";
-import SuikaLogo from "../../assets/favicon.svg";
+import SuikaLogo from "../../../assets/favicon.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Navbar = () => {

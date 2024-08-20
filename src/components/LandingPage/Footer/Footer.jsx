@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import SuikaLogo from "../../assets/favicon.svg";
+import SuikaLogo from "../../../assets/favicon.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Footer = () => {
@@ -25,7 +25,7 @@ const Footer = () => {
                   <FontAwesomeIcon icon="fa-solid fa-mug-hot" />
                 </span>
               </p>
-              <p className="text-gray-500">
+              {/* <p className="text-gray-500">
                 Powered by ReactJS, ExpressJS &{" "}
                 <Link
                   className="text-blue-600 underline"
@@ -35,7 +35,7 @@ const Footer = () => {
                   Preline UI
                 </Link>
                 .
-              </p>
+              </p> */}
             </div>
             <div className="mt-3 space-x-2">
               <p className="text-gray-500">

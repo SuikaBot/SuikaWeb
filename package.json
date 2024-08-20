@@ -18,7 +18,7 @@
     "@tailwindcss/forms": "^0.5.7",
     "aos": "^3.0.0-beta.6",
     "axios": "^1.7.2",
-    "preline": "^1.9.0",
+    "preline": "^2.4.1",
     "react": "^18.2.0",
     "react-countup": "^6.5.3",
     "react-dom": "^18.2.0",
