@@ -1,5 +1,7 @@
-import { useEffect } from "react";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Routes, Route, BrowserRouter, useLocation } from "react-router-dom";
+
+import "preline/preline";
 
 import Home from "./pages/Landingpage/Home";
 import NotFound from "./pages/NotFound";
@@ -16,33 +18,29 @@ import Dashboard from "./pages/Admin/Dashboard";
 import SupportList from "./pages/Landingpage/Converter/SupportList";
 
 const App = () => {
+  const location = useLocation();
+
   useEffect(() => {
-    const loadPreline = async () => {
-      await import("preline/preline");
-
+    if (window.HSStaticMethods) {
       window.HSStaticMethods.autoInit();
-    };
-
-    loadPreline();
-  }, []);
+    }
+  }, [location.pathname]);
 
   return (
     <>
       <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <Routes>
-            {/* Not Found */}
-            <Route path="*" element={<NotFound />} />
+        <Routes>
+          {/* Not Found */}
+          <Route path="*" element={<NotFound />} />
 
-            {/* Main Routes */}
-            <Route path="/" element={<Home />} />
-            <Route path="/converter/support-list" element={<SupportList />} />
+          {/* Main Routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/converter/support-list" element={<SupportList />} />
 
-            {/* Admin Routes */}
-            {/* Dashboard */}
-            <Route path="_admin/dashboard" element={<Dashboard />} />
-          </Routes>
-        </BrowserRouter>
+          {/* Admin Routes */}
+          {/* Dashboard */}
+          <Route path="_admin/dashboard" element={<Dashboard />} />
+        </Routes>
       </ThemeProvider>
     </>
   );
