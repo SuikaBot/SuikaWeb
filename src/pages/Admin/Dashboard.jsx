@@ -61,7 +61,11 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const rawResponse = await fetch(ENDPOINTS.SYSTEM_STATS);
+        const rawResponse = await fetch(ENDPOINTS.SYSTEM_STATS, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const response = await rawResponse.json();
         const data = response.cache;
 
