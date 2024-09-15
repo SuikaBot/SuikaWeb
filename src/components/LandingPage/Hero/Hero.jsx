@@ -9,7 +9,7 @@ import SuikaLogo from "../../../assets/favicon.svg";
 const Hero = () => {
   return (
     <section id="home">
-      <div className="relative overflow-hidden before:absolute before:top-0 before:start-1/2 before:bg-[url('https://preline.co/assets/svg/examples/squared-bg-element.svg')] before:bg-no-repeat before:bg-top before:size-full before:-z-[1] before:transform before:-translate-x-1/2">
+      <div className="relative z-20 overflow-hidden before:absolute before:top-0 before:start-1/2 before:bg-[url('https://preline.co/assets/svg/examples/squared-bg-element.svg')] before:bg-no-repeat before:bg-top before:size-full before:-z-[1] before:transform before:-translate-x-1/2">
         <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10">
           <div className="flex justify-center items-center">
             <Zoom>
@@ -36,7 +36,7 @@ const Hero = () => {
               to={"list-bot"}
               smooth={true}
               duration={500}
-              className="cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 inline-flex justify-center items-center gap-x-3 text-center bg-gradient-to-tl from-emerald-500 to-green-600 hover:from-green-600 hover:to-emerald-500 border border-transparent text-white text-sm font-bold rounded-full py-3 px-4"
+              className="cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 inline-flex justify-center items-center gap-x-3 text-center bg-gradient-to-tl from-emerald-600 to-green-500 hover:from-green-500 hover:to-emerald-600 border border-transparent text-white text-sm font-bold rounded-full py-3 px-4"
             >
               <FontAwesomeIcon icon="fa-solid fa-robot" />
               Cek Nomor Bot

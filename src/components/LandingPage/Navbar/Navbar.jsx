@@ -1,93 +1,98 @@
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Link } from "react-scroll";
-import SuikaLogo from "../../../assets/favicon.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import SuikaLogo from "../../../assets/favicon.svg";
+
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <>
       <header className="flex flex-wrap md:justify-start md:flex-nowrap sticky top-0 z-50 w-full py-4">
-        <nav
-          className="relative max-w-[85rem] rounded-[36px] mx-3 py-1 px-7 md:flex md:items-center md:justify-between md:py-0 md:px-6 lg:px-8 xl:mx-auto w-full bg-white border border-gray-200 flex flex-wrap md:grid-cols-12 basis-full items-center "
-          aria-label="Global"
-        >
-          <div className="md:col-span-3">
+        <nav className="bg-white sm:px-5 md:px-10 dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+          <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <Link
               to="home"
               smooth={true}
               duration={500}
               className="cursor-pointer flex items-center justify-between rounded-xl text-xl font-semibold focus:outline-none focus:opacity-80"
             >
-              <img className="h-8" src={SuikaLogo} alt="" />
-              <p className="ml-1">SuikaBot</p>
+              <img src={SuikaLogo} className="h-8" alt="Flowbite Logo" />
+              <p className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+                <span className="ml-2">SuikaBot</span>
+              </p>
             </Link>
-          </div>
-
-          <div className="flex items-center gap-x-2 ms-auto py-1 md:ps-6 md:order-3 md:col-span-3">
-            <NavLink
-              to={"https://www.whatsapp.com/channel/0029VaNiu6g3bbV7077Sb429"}
-              target="_blank"
-              className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl border border-transparent bg-gradient-to-tl from-emerald-500 to-green-600 hover:from-green-600 hover:to-emerald-500 text-white transition disabled:opacity-50 disabled:pointer-events-none focus:outline-none"
-            >
-              <FontAwesomeIcon icon="fa-brands fa-whatsapp" />
-              Channel
-            </NavLink>
-
-            <div className="md:hidden">
+            <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+              <NavLink
+                to={"https://www.whatsapp.com/channel/0029VaNiu6g3bbV7077Sb429"}
+                target="_blank"
+                className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl border border-transparent bg-gradient-to-tl from-emerald-600 to-green-500 hover:from-green-500 hover:to-emerald-600 text-white transition disabled:opacity-50 disabled:pointer-events-none focus:outline-none"
+              >
+                <FontAwesomeIcon icon="fa-brands fa-whatsapp" />
+                Channel
+              </NavLink>
               <button
                 type="button"
-                className="hs-collapse-toggle size-[38px] flex justify-center items-center text-sm font-semibold rounded-xl border border-gray-200 text-black hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
-                data-hs-collapse="#navbar-collapse-with-animation"
-                aria-controls="navbar-collapse-with-animation"
-                aria-label="Toggle navigation"
+                className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                aria-controls="navbar-sticky"
+                aria-expanded={isOpen}
+                onClick={toggleMenu}
               >
-                <FontAwesomeIcon
-                  className="hs-collapse-open:hidden flex-shrink-0 size-4"
-                  icon="fa-solid fa-bars-staggered"
-                />
-                <FontAwesomeIcon
-                  className="hs-collapse-open:block hidden flex-shrink-0 size-4"
-                  icon="fa-solid fa-x"
-                />
+                <span className="sr-only">Open main menu</span>
+                {isOpen ? (
+                  <FontAwesomeIcon className="hw-5 h-5" icon="fa-solid fa-x" />
+                ) : (
+                  <FontAwesomeIcon
+                    className="w-5 h-5"
+                    icon="fa-solid fa-bars-staggered"
+                  />
+                )}
               </button>
             </div>
-          </div>
-
-          <div
-            id="navbar-collapse-with-animation"
-            className="py-5 hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:block md:w-auto md:basis-auto md:order-2 md:col-span-6"
-          >
-            <div className="flex flex-col gap-y-4 gap-x-0 mt-5 md:flex-row md:justify-center md:items-center md:gap-y-0 md:gap-x-7 md:mt-0">
-              <div>
-                <Link
-                  to="home"
-                  smooth={true}
-                  duration={500}
-                  className="hover:cursor-pointer inline-block text-black hover:text-gray-600"
-                >
-                  Utama
-                </Link>
-              </div>
-              <div>
-                <Link
-                  to="about"
-                  smooth={true}
-                  duration={500}
-                  className="hover:cursor-pointer inline-block text-black hover:text-gray-600"
-                >
-                  Tentang
-                </Link>
-              </div>
-              <div>
-                <Link
-                  to="list-bot"
-                  smooth={true}
-                  duration={500}
-                  className="hover:cursor-pointer inline-block text-black hover:text-gray-600"
-                >
-                  Nomor Bot
-                </Link>
-              </div>
+            <div
+              className={`items-center justify-between w-full md:flex md:w-auto md:order-1 ${
+                isOpen ? "block" : "hidden"
+              }`}
+              id="navbar-sticky"
+            >
+              <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                <li>
+                  <Link
+                    to="home"
+                    smooth={true}
+                    duration={500}
+                    className="hover:cursor-pointer transition duration-150 hover:bg-gray-100 md:hover:bg-transparent  hover:text-emerald-500 block py-2 px-3 text-gray-900 rounded md:bg-transparent md:p-0 md:dark:text-emerald-400"
+                  >
+                    Utama
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="about"
+                    smooth={true}
+                    duration={500}
+                    className="hover:cursor-pointer block py-2 px-3 hover:text-emerald-500 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 md:dark:hover:bg-transparent dark:border-gray-700"
+                  >
+                    About
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="list-bot"
+                    smooth={true}
+                    duration={500}
+                    className="cursor-pointer block py-2 px-3 hover:text-emerald-500 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 md:dark:hover:bg-transparent dark:border-gray-700"
+                  >
+                    Nomor Bot
+                  </Link>
+                </li>
+              </ul>
             </div>
           </div>
         </nav>

@@ -27,7 +27,7 @@ const theme = {
     },
     warning: {
       main: "#f1c40f",
-      hover: "#f39c12",
+      hover: "#d9b00c",
     },
     danger: {
       main: "#e74c3c",

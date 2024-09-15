@@ -1,32 +1,36 @@
+import { Toast, ToastToggle } from "flowbite-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useState } from "react";
 
 const AnnounceBanner = () => {
+  const [showBanner, setShowBanner] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowBanner(true);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <>
-      <div
-        id="ab-full-width-with-dismiss-button-on-blue-bg"
-        className="fixed bottom-0 left-0 right-0 hs-removing:-translate-y-full bg-color3 z-50"
-      >
-        <div className="max-w-[85rem] px-4 py-4 sm:px-6 lg:px-8 mx-auto">
-          <div className="flex">
-            <p className="text-white">
-              <FontAwesomeIcon icon="fa-solid fa-helmet-safety" /> Website still
-              under progress . . .
-            </p>
-
-            <div className="ps-3 ms-auto">
-              <button
-                type="button"
-                className="inline-flex rounded-lg p-1.5 text-white/80 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-blue-600 focus:ring-white"
-                data-hs-remove-element="#ab-full-width-with-dismiss-button-on-blue-bg"
-              >
-                <span className="sr-only">Dismiss</span>
-                <FontAwesomeIcon icon="fa-solid fa-x" />
-              </button>
+      {showBanner && (
+        <div className="fixed bottom-5 md:bottom-10 left-10 right-10 z-50 announce-banner-enter">
+          <Toast>
+            <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-yellow-200 text-yellow-500 dark:bg-cyan-800 dark:text-cyan-200">
+              <FontAwesomeIcon
+                className="h-5 w-5"
+                icon="fa-solid fa-helmet-safety"
+              />
             </div>
-          </div>
+            <div className="ml-3 text-sm font-normal">
+              Website still under progress . . .
+            </div>
+            <ToastToggle />
+          </Toast>
         </div>
-      </div>
+      )}
     </>
   );
 };

@@ -1,12 +1,8 @@
 import React, { useEffect } from "react";
-import { Routes, Route, BrowserRouter, useLocation } from "react-router-dom";
-
-import "preline/preline";
-
-import Home from "./pages/Landingpage/Home";
-import NotFound from "./pages/NotFound";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 import { ThemeProvider } from "styled-components";
+import { HelmetProvider } from "react-helmet-async";
 import theme from "./utils/contants/theme";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -14,35 +10,111 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
 
-import Dashboard from "./pages/Admin/Dashboard";
+import Home from "./pages/Landingpage/Home";
 import SupportList from "./pages/Landingpage/Converter/SupportList";
+import Dashboard from "./pages/Admin/Dashboard";
+import NotFound from "./pages/Landingpage/NotFound";
+import AdminNotFound from "./pages/Admin/AdminNotFound";
+import BotStatus from "./pages/Admin/WebManagement/BotStatus";
+import LoginPage from "./pages/Auth/LoginPage";
+import RegisterPage from "./pages/Auth/RegisterPage";
+import { UserProvider } from "./context/UserContext";
+import ManageUsers from "./pages/Admin/UsersManagement/ManageUsers";
+
+import { initFlowbite } from "flowbite";
+import ShortenUrl from "./pages/Landingpage/ShortenURL/ShortenUrl";
 
 const App = () => {
   const location = useLocation();
-
   useEffect(() => {
-    if (window.HSStaticMethods) {
-      window.HSStaticMethods.autoInit();
-    }
+    initFlowbite();
   }, [location.pathname]);
 
+  // useEffect(() => {
+  //   if (window.HSStaticMethods) {
+  //     window.HSStaticMethods.autoInit();
+  //   }
+  // }, [location.pathname]);
+
+  const isAuthenticated = () => {
+    return JSON.parse(localStorage.getItem("user_data")) !== null;
+  };
+
   return (
-    <>
-      <ThemeProvider theme={theme}>
-        <Routes>
-          {/* Not Found */}
-          <Route path="*" element={<NotFound />} />
+    <HelmetProvider>
+      <UserProvider>
+        <ThemeProvider theme={theme}>
+          <Routes>
+            <Route path="/*" element={<NotFound />} />
+            <Route index path="/" element={<Home />} />
+            <Route path="/s/:shortUrl" element={<ShortenUrl />} />
+            <Route path="/converter/support-list" element={<SupportList />} />
 
-          {/* Main Routes */}
-          <Route path="/" element={<Home />} />
-          <Route path="/converter/support-list" element={<SupportList />} />
+            <Route
+              path="/sb/login"
+              element={
+                isAuthenticated() ? (
+                  <Navigate to={"/sb/dashboard"} />
+                ) : (
+                  <LoginPage />
+                )
+              }
+            />
+            <Route
+              path="/sb/register"
+              element={
+                isAuthenticated() ? (
+                  <Navigate to={"/sb/dashboard"} />
+                ) : (
+                  <RegisterPage />
+                )
+              }
+            />
 
-          {/* Admin Routes */}
-          {/* Dashboard */}
-          <Route path="_admin/dashboard" element={<Dashboard />} />
-        </Routes>
-      </ThemeProvider>
-    </>
+            <Route
+              path="/sb/*"
+              element={
+                isAuthenticated() ? (
+                  <AdminNotFound />
+                ) : (
+                  <Navigate to={"/sb/login"} />
+                )
+              }
+            />
+            <Route
+              path="/sb/dashboard"
+              element={
+                isAuthenticated() ? (
+                  <Dashboard />
+                ) : (
+                  <Navigate to={"/sb/login"} />
+                )
+              }
+            />
+            <Route
+              path="/sb/manage-users"
+              element={
+                isAuthenticated() ? (
+                  <ManageUsers />
+                ) : (
+                  <Navigate to={"/sb/manage-users"} />
+                )
+              }
+            />
+            <Route
+              path="/sb/bot-status"
+              element={
+                isAuthenticated() ? (
+                  <BotStatus />
+                ) : (
+                  <Navigate to={"/sb/login"} />
+                )
+              }
+            />
+          </Routes>
+        </ThemeProvider>
+      </UserProvider>
+    </HelmetProvider>
   );
 };
 

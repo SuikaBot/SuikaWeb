@@ -106,7 +106,7 @@ const About = () => {
                           "https://www.whatsapp.com/channel/0029VaNiu6g3bbV7077Sb429"
                         }
                         target="_blank"
-                        className="transition ease-in-out hover:-translate-y-1 hover:scale-200 duration-200 inline-flex justify-center items-center gap-x-3 text-center bg-gradient-to-tl from-emerald-500 to-green-600 hover:from-green-600 hover:to-emerald-500 border border-transparent text-white text-sm font-bold rounded-full py-3 px-4"
+                        className="transition ease-in-out hover:-translate-y-1 hover:scale-200 duration-200 inline-flex justify-center items-center gap-x-3 text-center bg-gradient-to-tl from-emerald-600 to-green-500 hover:from-green-500 hover:to-emerald-600 border border-transparent text-white text-sm font-bold rounded-full py-3 px-4"
                       >
                         <FontAwesomeIcon icon="fa-brands fa-whatsapp" />
                         Cek WhatsApp Channel

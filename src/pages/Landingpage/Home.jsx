@@ -1,3 +1,5 @@
+import { Helmet } from "react-helmet-async";
+
 import About from "../../components/LandingPage/About/About";
 import AnnounceBanner from "../../components/LandingPage/AnnounceBanner/AnnounceBanner";
 import Footer from "../../components/LandingPage/Footer/Footer";
@@ -10,15 +12,20 @@ import Stats from "../../components/LandingPage/Stats/Stats";
 const Home = () => {
   return (
     <>
-      <Navbar />
-      <main id="content">
-        <Hero />
-        <Stats />
-        <About />
-        <ListBot />
-        <AnnounceBanner />
-      </main>
-      <Footer />
+      <Helmet>
+        <title>SuikaBot</title>
+      </Helmet>
+      <section className="main">
+        <Navbar />
+        <main id="content">
+          <Hero />
+          <Stats />
+          <About />
+          <ListBot />
+          <AnnounceBanner />
+        </main>
+        <Footer />
+      </section>
     </>
   );
 };
