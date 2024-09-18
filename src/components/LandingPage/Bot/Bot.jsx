@@ -29,7 +29,7 @@ const Bot = ({ id, active, reason, name, phone, onClick }) => {
         text: "text-amber-700",
         icon: "fa-solid fa-copy",
       };
-    } else if (reason === null) {
+    } else if (reason === null || reason === "-") {
       return {
         hover: "bg-green-200",
         color: "bg-green-300",
