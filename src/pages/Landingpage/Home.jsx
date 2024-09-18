@@ -8,6 +8,7 @@ import ListBot from "../../components/LandingPage/ListBot/ListBot";
 import Navbar from "../../components/LandingPage/Navbar/Navbar";
 
 import Stats from "../../components/LandingPage/Stats/Stats";
+import Testimonials from "../../components/LandingPage/Testimonials/Testimonials";
 
 const Home = () => {
   return (
@@ -21,6 +22,7 @@ const Home = () => {
           <Hero />
           <Stats />
           <About />
+          <Testimonials />
           <ListBot />
           <AnnounceBanner />
         </main>

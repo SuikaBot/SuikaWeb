@@ -3,7 +3,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "flowbite-react";
 
-const ActionsMenu = ({ onEdit, onDelete }) => (
+const ActionsMenu = ({ onEdit, onDelete, hidden }) => (
   <Menu as="div" className="relative">
     <Menu.Button className="p-2 text-gray-500 hover:text-gray-700">
       <FontAwesomeIcon icon="fa-solid fa-ellipsis-vertical" />
@@ -39,7 +39,7 @@ const ActionsMenu = ({ onEdit, onDelete }) => (
               </>
             )}
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item className={hidden}>
             {({ active }) => (
               <Button
                 size="xs"

@@ -2,32 +2,39 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import SuikaIcon from "../../assets/suika-icon.svg";
+import SuikaIcon from "../../../assets/suika-icon.svg";
+import { motion } from "framer-motion";
 
 const BotGo = (props) => {
   const MySwal = withReactContent(Swal);
 
-  const handleClick = (event) => {
+  const handleClick = (e) => {
     MySwal.fire({
       icon: "warning",
       title: "Gagal",
       text: "Nomor tidak aktif, coba nomor lain...",
+      confirmButtonColor: "#dd8255",
+      confirmButtonText: "Oke",
     });
-    event.preventDefault();
   };
 
-  const linkActive = props.linkActive ? props.linkActive : false;
+  const linkActive = props.linkActive;
   const to = linkActive
-    ? "https://api.whatsapp.com/send/?phone=6285179910233&text=p&type=phone_number&app_absent=0"
-    : "";
+    ? `https://api.whatsapp.com/send/?phone=${props.phone.replace(
+        /\D/g,
+        ""
+      )}&text=p&type=phone_number&app_absent=0`
+    : "#";
   const target = linkActive ? "_blank" : "";
 
   return (
-    <div
+    <motion.div
+      whileHover={{ scale: 1.04 }}
+      whileTap={{ scale: 0.95 }}
       id={`tabs-with-card-${props.id}`}
       role="tabpanel"
-      className={props.hidden}
-      aria-labelledby={`tabs-with-card-item-${props.id}`}
+      className={`tabpanel ${props.hidden}`}
+      aria-labelledby={`tabs-with-card-${props.id}`}
     >
       <Link
         to={to}
@@ -35,7 +42,7 @@ const BotGo = (props) => {
         onClick={!linkActive ? handleClick : undefined}
       >
         <div className={`shadow-xl shadow-gray-200 rounded-xl ${props.filter}`}>
-          <div className="bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-neutral-100 dark:border-neutral-100 dark:shadow-neutral-800/50">
+          <div className="bg-neutral-50 border border-gray-200 shadow-sm rounded-xl dark:bg-neutral-100 dark:border-neutral-100 dark:shadow-neutral-800/50">
             <div className="h-full ra flex flex-col justify-center items-center bg-color2 rounded-t-xl">
               <img className="rounded-t-xl" src={SuikaIcon} alt="" />
             </div>
@@ -56,7 +63,7 @@ const BotGo = (props) => {
           </div>
         </div>
       </Link>
-    </div>
+    </motion.div>
   );
 };
 

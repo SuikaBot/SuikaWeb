@@ -1,5 +1,5 @@
-import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import PropTypes from "prop-types";
 
 const ContentBox = ({
   small_name,
@@ -35,6 +35,15 @@ const ContentBox = ({
       {/* End Content */}
     </div>
   );
+};
+ContentBox.propTypes = {
+  small_name: PropTypes.string,
+  name: PropTypes.string,
+  icon: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  children: PropTypes.node,
+  color_icon: PropTypes.string,
+  hidden_icon: PropTypes.string,
 };
 
 export default ContentBox;

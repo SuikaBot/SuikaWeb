@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import dashboardNav from "../../../utils/contants/navigation";
+import { dashboardNav } from "../../../utils/contants/navigation";
 
 const Search = () => {
   const [query, setQuery] = useState("");

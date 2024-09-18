@@ -118,7 +118,7 @@ const LoginComponent = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center min-h-screen bg-color3">
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-green-400 to-blue-500">
         <div className="w-full max-w-[25rem] sm:max-w-[30rem]">
           <div className="p-4 sm:p-7 rounded-xl bg-white border border-gray-200  shadow-sm">
             <div className="text-center">

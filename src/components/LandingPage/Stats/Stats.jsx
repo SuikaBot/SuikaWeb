@@ -1,44 +1,53 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import axios from "axios";
 import Stat from "../Stat/Stat";
+import { ENDPOINTS } from "../../../utils/contants/endpoint";
 
 const Stats = () => {
-  const [person, setPerson] = useState([]);
-  const [group, setGroup] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [personal, setPersonal] = useState(0);
+  const [grup, setGrup] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [version, setVersion] = useState("");
 
-  // const getPerson = async () => {
-  //   try {
-  //     const response = await axios.get("https://suika.pw/api/person");
-  //     setPerson(response.data.data);
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+  const [loading, setLoading] = useState({ identities: true, version: true });
 
-  // const getGroup = async () => {
-  //   try {
-  //     const response = await axios.get("https://suika.pw/api/group");
-  //     setGroup(response.data.data);
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+  const getIdentities = async () => {
+    try {
+      const response = await axios.get(ENDPOINTS.GET_IDENTITIES("wa"));
+      const data = response.data;
+      setPersonal(data.detail[0].total);
+      setGrup(data.detail[1].total);
+      setTotal(data.total);
+      // console.log(data.detail[0].total);
+    } catch (error) {
+      // console.error("Error fetching data:", error);
+      ("");
+    } finally {
+      setLoading({ identities: false });
+    }
+  };
 
-  // useEffect(() => {
-  //   getPerson();
-  //   getGroup();
-  // }, []);
+  const getVersion = async () => {
+    try {
+      const response = await axios.get(ENDPOINTS.BOTS);
+      const data = response.data.data.suikaActive;
+      setVersion(data.version);
+    } catch (error) {
+      // console.error("Error fetching data:", error);
+      ("");
+    } finally {
+      setLoading({ version: false });
+    }
+  };
 
-  // const personal = person;
-  // const grup = group;
-  // const total = personal + grup;
+  useEffect(() => {
+    getIdentities();
+    getVersion();
+  }, []);
 
+  // console.log(personal);
+  // console.log(loading.identities);
   return (
     <div
       className="max-w-[65rem] rounded-lg  bg-white mx-8 px-4 py-5 sm:px-5 sm:py-4 sm:mx-10 md:py-5 md:mx-16 lg:px-8 lg:py-5 lg:mx-auto"
@@ -49,27 +58,27 @@ const Stats = () => {
         <Stat
           mainIcon="fa-solid fa-user"
           title="Personal Chat"
-          number={""}
-          loading={loading}
+          number={personal}
+          loading={loading.identities}
         />
         <Stat
           mainIcon="fa-solid fa-users"
           title="Grup Chat"
-          number={""}
-          loading={loading}
+          number={grup}
+          loading={loading.identities}
         />
         <Stat
           mainIcon="fa-solid fa-users-rectangle"
           title="Total Pengguna"
-          number={""}
-          additional="+"
-          loading={loading}
+          number={total}
+          additional="±"
+          loading={loading.identities}
         />
         <Stat
           mainIcon="fa-solid fa-code-branch"
           title="Versi Bot"
-          additional="v1.6"
-          loading={loading}
+          additional={version}
+          loading={loading.version}
         />
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Layout from "../../../components/_Admin/Layout/Layout";
 import ActionsMenu from "../../../components/General/DataTables/ActionsMenu";
@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 import InputText from "../../../components/General/Modals/InputText";
 import InputRadio from "../../../components/General/Modals/InputRadio";
 import { useNavigate } from "react-router-dom";
+import DashBox from "../../../components/_Admin/DashBox/DashBox";
 
 const ManageUsers = () => {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ const ManageUsers = () => {
   const [confPassword, setConfPassword] = useState("");
   const [role, setRole] = useState();
   const [isActive, setIsActive] = useState(false);
+  const [activatedUser, setActivatedUser] = useState("");
 
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
@@ -49,30 +51,10 @@ const ManageUsers = () => {
     setEditModal(true);
   };
 
-  const getDataUsers = async () => {
-    try {
-      const response = await axios.get(ENDPOINTS.USERS, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setUsers(response.data.data);
-    } catch (error) {
-      console.log(error);
-      if (error.response.status === 403) {
-        localStorage.removeItem("user_data");
-        navigate("/sb/login");
-      }
-      console.error("Failed to fetch data", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const addUser = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
+      await axios.post(
         ENDPOINTS.USERS,
         {
           name: name,
@@ -94,7 +76,7 @@ const ManageUsers = () => {
         icon: "success",
         confirmButtonColor: "#3085d6",
       }).then(() => {
-        navigate(0);
+        // navigate(0);
       });
     } catch (error) {
       if (error.response.data.errors) {
@@ -129,7 +111,7 @@ const ManageUsers = () => {
   const updateUser = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.patch(
+      await axios.patch(
         ENDPOINTS.USERS_ID(currentItem.uuid),
         {
           name: currentItem.name,
@@ -153,7 +135,7 @@ const ManageUsers = () => {
         icon: "success",
         confirmButtonColor: "#3085d6",
       }).then(() => {
-        navigate(0);
+        // navigate(0);
       });
     } catch (error) {
       console.log(error);
@@ -180,7 +162,17 @@ const ManageUsers = () => {
           },
         }
       );
-      setIsActive((prevState) => ({ ...prevState, [user.uuid]: checked }));
+
+      setIsActive((prevState) => {
+        const updatedState = { ...prevState, [user.uuid]: checked };
+
+        const activeUsersCount =
+          Object.values(updatedState).filter(Boolean).length;
+        setActivatedUser(activeUsersCount);
+
+        return updatedState;
+      });
+
       Toast.fire({
         icon: checked ? "success" : "warning",
         title: `${user.name} is ${checked ? "activated" : "deactivated"}`,
@@ -226,7 +218,7 @@ const ManageUsers = () => {
           icon: "success",
           confirmButtonColor: "#3085d6",
         }).then(() => {
-          navigate(0);
+          // navigate(0);
         });
       }
     } catch (error) {
@@ -249,8 +241,40 @@ const ManageUsers = () => {
   };
 
   useEffect(() => {
+    const getDataUsers = async () => {
+      try {
+        const response = await axios.get(ENDPOINTS.USERS, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const usersData = response.data.data;
+        setUsers(usersData);
+
+        const initialIsActiveState = {};
+        usersData.forEach((user) => {
+          initialIsActiveState[user.uuid] = user.is_active;
+        });
+        setIsActive(initialIsActiveState);
+
+        const activeUsersCount = usersData.filter(
+          (user) => user.is_active
+        ).length;
+        setActivatedUser(activeUsersCount);
+      } catch (error) {
+        console.log(error);
+        if (error.response.status === 403) {
+          localStorage.removeItem("user_data");
+          navigate("/sb/login");
+        }
+        console.error("Failed to fetch data", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     getDataUsers();
-  }, []);
+  }, [token, navigate]);
 
   const handleSearch = (event) => {
     setSearchText(event.target.value);
@@ -305,14 +329,33 @@ const ManageUsers = () => {
         <title>Manage Users | SuikaBot</title>
       </Helmet>
       <Layout bg={"bg-color1"}>
-        {[<div key={1}></div>]}
+        {[
+          <div key={1}>
+            <div className="container mx-auto">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6">
+                <DashBox
+                  name={"Total Users"}
+                  hidden={"hidden"}
+                  value={users.length}
+                  icon={"fa-solid fa-users"}
+                />
+                <DashBox
+                  name={"Users Activated"}
+                  hidden={"hidden"}
+                  value={activatedUser}
+                  icon={"fa-solid fa-user-check"}
+                />
+              </div>
+            </div>
+          </div>,
+        ]}
         {[
           <div key={2}>
-            {users.length === 0 ? (
-              ""
+            {loading === true ? (
+              "loading..."
             ) : (
               <>
-                <div className="container mx-auto p-4">
+                <div className="container p-4">
                   <CustomHeader
                     title="Manage Users"
                     description="Manage users data here"

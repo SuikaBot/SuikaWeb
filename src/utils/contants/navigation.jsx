@@ -28,9 +28,21 @@ const dashboardNav = [
         path: "/sb/bot-status",
       },
       {
-        name: "Another User Section",
-        icon: "fa-solid fa-user-circle",
-        path: "/sb/another-user-section",
+        name: "Content",
+        icon: "fa-solid fa-user-group",
+        path: "#",
+        sub_menu: [
+          {
+            name: "Feedbacks",
+            icon: "fa-solid fa-circle",
+            path: "/sb/feedbacks",
+          },
+          {
+            name: "Traktir Leaderboard",
+            icon: "fa-solid fa-circle",
+            path: "/sb/traktir-leaderboard",
+          },
+        ],
       },
     ],
   },
@@ -107,4 +119,23 @@ const dashboardNav = [
   },
 ];
 
-export default dashboardNav;
+const homeNav = [
+  {
+    name: "Utama",
+    link: "home",
+  },
+  {
+    name: "Tentang",
+    link: "about",
+  },
+  {
+    name: "Kata Mereka",
+    link: "kata-mereka",
+  },
+  {
+    name: "Nomor Bot",
+    link: "list-bot",
+  },
+];
+
+export { dashboardNav, homeNav };

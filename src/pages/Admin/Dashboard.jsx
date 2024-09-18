@@ -8,7 +8,7 @@ import { jwtDecode } from "jwt-decode";
 import Layout from "../../components/_Admin/Layout/Layout";
 import DashBox from "../../components/_Admin/DashBox/DashBox";
 import ContentBox from "../../components/_Admin/DashBox/ContentBox";
-import Loading from "../../components/General/Loading";
+import { LoadingSpinner } from "../../components/General/Loading";
 import DataTableBase from "../../components/General/DataTableBase";
 import {
   AreaChart,
@@ -68,6 +68,8 @@ const Dashboard = () => {
         });
         const response = await rawResponse.json();
         const data = response.cache;
+
+        console.log("Data:", data);
 
         if (response.cached) {
           localStorage.setItem(
@@ -243,7 +245,7 @@ const Dashboard = () => {
       <Helmet>
         <title>Dashboard | SuikaBot</title>
       </Helmet>
-      <Layout bg={"bg-color1"}>
+      <Layout bg={"bg-color1"} hideThis={"hidden"}>
         {[
           <div key={1}>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
@@ -302,7 +304,7 @@ const Dashboard = () => {
                         {cpuData.name != 0 ? (
                           cpuData.name
                         ) : (
-                          <Loading
+                          <LoadingSpinner
                             size={5}
                             color={"text-blue-500"}
                             name={"Loading..."}
@@ -316,7 +318,7 @@ const Dashboard = () => {
                         {cpuData.cores != 0 ? (
                           cpuData.cores
                         ) : (
-                          <Loading
+                          <LoadingSpinner
                             size={5}
                             color={"text-blue-500"}
                             name={"Loading..."}
@@ -330,7 +332,7 @@ const Dashboard = () => {
                         {cpuData.threads != 0 ? (
                           cpuData.threads
                         ) : (
-                          <Loading
+                          <LoadingSpinner
                             size={5}
                             color={"text-blue-500"}
                             name={"Loading..."}
@@ -364,7 +366,7 @@ const Dashboard = () => {
                         {ramData.total != 0 ? (
                           ramData.total + " GB"
                         ) : (
-                          <Loading
+                          <LoadingSpinner
                             size={5}
                             color={"text-blue-500"}
                             name={"Loading..."}
@@ -378,7 +380,7 @@ const Dashboard = () => {
                         {ramData.free != 0 ? (
                           ramData.free + " GB"
                         ) : (
-                          <Loading
+                          <LoadingSpinner
                             size={5}
                             color={"text-blue-500"}
                             name={"Loading..."}
@@ -392,7 +394,7 @@ const Dashboard = () => {
                         {ramData.used != 0 ? (
                           ramData.used + " GB"
                         ) : (
-                          <Loading
+                          <LoadingSpinner
                             size={5}
                             color={"text-blue-500"}
                             name={"Loading..."}

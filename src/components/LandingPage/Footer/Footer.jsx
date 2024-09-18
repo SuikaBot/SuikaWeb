@@ -1,11 +1,10 @@
-import { Link } from "react-router-dom";
 import SuikaLogo from "../../../assets/favicon.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Footer = () => {
   return (
     <>
-      <section className="bg-white shadow-inner">
+      <section className="bg-gradient-to-b from-neutral-100 to-stone-200 shadow-inner">
         <footer className="mt-auto w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
           <div className="text-center">
             <div className="mx-auto text-3xl font-semibold">

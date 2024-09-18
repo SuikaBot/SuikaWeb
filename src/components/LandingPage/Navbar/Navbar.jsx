@@ -4,6 +4,7 @@ import { Link } from "react-scroll";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import SuikaLogo from "../../../assets/favicon.svg";
+import { homeNav } from "../../../utils/contants/navigation";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,7 +16,7 @@ const Navbar = () => {
   return (
     <>
       <header className="flex flex-wrap md:justify-start md:flex-nowrap sticky top-0 z-50 w-full py-4">
-        <nav className="bg-white sm:px-5 md:px-10 dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+        <nav className="bg-gradient-to-b from-neutral-50 to-stone-100 sm:px-5 md:px-10 dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
           <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <Link
               to="home"
@@ -61,37 +62,21 @@ const Navbar = () => {
               }`}
               id="navbar-sticky"
             >
-              <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                <li>
-                  <Link
-                    to="home"
-                    smooth={true}
-                    duration={500}
-                    className="hover:cursor-pointer transition duration-150 hover:bg-gray-100 md:hover:bg-transparent  hover:text-emerald-500 block py-2 px-3 text-gray-900 rounded md:bg-transparent md:p-0 md:dark:text-emerald-400"
-                  >
-                    Utama
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="about"
-                    smooth={true}
-                    duration={500}
-                    className="hover:cursor-pointer block py-2 px-3 hover:text-emerald-500 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 md:dark:hover:bg-transparent dark:border-gray-700"
-                  >
-                    About
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="list-bot"
-                    smooth={true}
-                    duration={500}
-                    className="cursor-pointer block py-2 px-3 hover:text-emerald-500 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 md:dark:hover:bg-transparent dark:border-gray-700"
-                  >
-                    Nomor Bot
-                  </Link>
-                </li>
+              <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-stone-200 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-neutral-50 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                {homeNav.map((nav, index) => (
+                  <li key={index}>
+                    <Link
+                      activeClass="text-emerald-500 underline bg-gray-100"
+                      to={nav.link || "/"}
+                      smooth={true}
+                      spy={true}
+                      duration={500}
+                      className="hover:cursor-pointer transition duration-150 hover:bg-gray-100 md:hover:bg-transparent  hover:text-emerald-500 block py-2 px-3 text-gray-900 rounded md:bg-transparent md:p-0 md:dark:text-emerald-400"
+                    >
+                      {nav.name}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>

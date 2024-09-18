@@ -3,11 +3,9 @@ import { NavLink, useLocation } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import SuikaIcon from "../../../assets/suika-icon-text.webp";
 import Label from "./Label";
-import Breadcrumbs from "./Breadcrumbs";
 
-import dashboardNav from "../../../utils/contants/navigation";
+import { dashboardNav } from "../../../utils/contants/navigation";
 import SidebarToggle from "../../../utils/hooks/SidebarToggle";
 
 const Sidebar = () => {
@@ -47,7 +45,7 @@ const Sidebar = () => {
         <div className="relative flex flex-col flex-1 min-h-0 pt-0 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
           <div className="flex flex-col flex-1 pt-5 pb-4 overflow-y-auto">
             <div className="flex-1 px-3 space-y-1 bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-              <ul className="pb-2 space-y-2">
+              <ul className="pb-2 space-y-2 ml-1 sm:ml-3">
                 <li>
                   <form action="#" method="GET" className="lg:hidden">
                     <label htmlFor="mobile-search" className="sr-only">
@@ -84,7 +82,7 @@ const Sidebar = () => {
                     <Label name={section.label} />
                     {section.items.map((menu) =>
                       menu.sub_menu ? (
-                        <li key={menu.name}>
+                        <li key={menu.name} className="">
                           <button
                             type="button"
                             className={`flex items-center w-full p-2 text-md transition duration-75 rounded-lg group ${
@@ -159,7 +157,7 @@ const Sidebar = () => {
                   </React.Fragment>
                 ))}
               </ul>
-              <div className="pt-2 space-y-2">
+              {/* <div className="pt-2 space-y-2">
                 <a
                   href="https://github.com/themesberg/flowbite-admin-dashboard"
                   target="_blank"
@@ -176,7 +174,7 @@ const Sidebar = () => {
                   </svg>
                   <span className="ml-3">GitHub Repository</span>
                 </a>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="absolute bottom-0 left-0 justify-center hidden w-full p-4 space-x-4 bg-white lg:flex dark:bg-gray-800">
@@ -194,7 +192,7 @@ const Sidebar = () => {
               </svg>
             </a>
             <a
-              href="/"
+              href="#"
               data-tooltip-target="tooltip-settings"
               className="inline-flex justify-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
             >

@@ -1,4 +1,3 @@
-import { NavLink } from "react-router-dom";
 import { Link } from "react-scroll";
 
 import Zoom from "react-medium-image-zoom";
@@ -9,7 +8,9 @@ import SuikaLogo from "../../../assets/favicon.svg";
 const Hero = () => {
   return (
     <section id="home">
-      <div className="relative z-20 overflow-hidden before:absolute before:top-0 before:start-1/2 before:bg-[url('https://preline.co/assets/svg/examples/squared-bg-element.svg')] before:bg-no-repeat before:bg-top before:size-full before:-z-[1] before:transform before:-translate-x-1/2">
+      <div
+        className={`relative z-20 overflow-hidden before:absolute before:top-0 before:start-1/2 before:bg-bg1 before:bg-no-repeat before:bg-top before:size-full before:-z-[1] before:transform before:-translate-x-1/2`}
+      >
         <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10">
           <div className="flex justify-center items-center">
             <Zoom>

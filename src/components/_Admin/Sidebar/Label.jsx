@@ -1,5 +1,3 @@
-import React from "react";
-
 const Label = (props) => {
   return (
     <div className="font-semibold text-sm">

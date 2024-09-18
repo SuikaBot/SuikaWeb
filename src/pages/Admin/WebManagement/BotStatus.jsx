@@ -1,145 +1,276 @@
-import React, { useState, Fragment } from "react";
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { Menu, Transition } from "@headlessui/react";
-
-import { faker } from "@faker-js/faker";
 
 import Layout from "../../../components/_Admin/Layout/Layout";
-import DataTableBase from "../../../components/General/DataTableBase";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-const generateCustomData = (num) => {
-  const data = [];
-  for (let i = 0; i < num; i++) {
-    data.push({
-      id: i + 1,
-      username: faker.internet.userName(),
-      email: faker.internet.email(),
-      isActive: faker.datatype.boolean(),
-    });
-  }
-  return data;
-};
-
-// Definisi kolom untuk DataTable
-const columns = [
-  { name: "ID", selector: (row) => row.id, sortable: true },
-  { name: "Username", selector: (row) => row.username, sortable: true },
-  { name: "Email", selector: (row) => row.email, sortable: true },
-  {
-    name: "Active",
-    selector: (row) => (row.isActive ? "Yes" : "No"),
-    sortable: true,
-  },
-  {
-    name: "Actions",
-    cell: (row) => (
-      <Menu as="div" className="relative">
-        <Menu.Button className="p-2 text-gray-500 hover:text-gray-700">
-          <FontAwesomeIcon icon="fa-solid fa-ellipsis-vertical" />
-        </Menu.Button>
-        <Transition
-          as={Fragment}
-          enter="transition ease-out duration-100"
-          enterFrom="transform scale-95 opacity-0"
-          enterTo="transform scale-100 opacity-100"
-          leave="transition ease-in duration-75"
-          leaveFrom="transform scale-100 opacity-100"
-          leaveTo="transform scale-95 opacity-0"
-        >
-          <Menu.Items className="shador-xl absolute right-0 w-32 origin-top-right z-10 bg-color1 divide-y divide-gray-100 rounded-md shadow-lg ring-2 ring-color4 ring-opacity-5 focus:outline-none px-2 py-1">
-            <div className="p-1 ">
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    onClick={() => handleEdit(row.id)}
-                    className={`${
-                      active
-                        ? "bg-warning-hover text-color4"
-                        : "bg-warning text-color4"
-                    } group flex rounded-md items-center w-full p-2 text-sm mb-1`}
-                  >
-                    <span className="mr-2">
-                      <FontAwesomeIcon icon="fa-regular fa-pen-to-square" />
-                    </span>
-                    Edit
-                  </button>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    onClick={() => handleDelete(row.id)}
-                    className={`${
-                      active
-                        ? "bg-danger-hover text-color1"
-                        : "bg-danger text-color1"
-                    } group flex rounded-md items-center w-full p-2 text-sm`}
-                  >
-                    <span className="mr-2">
-                      <FontAwesomeIcon icon="fa-regular fa-trash-can" />
-                    </span>
-                    Delete{" "}
-                  </button>
-                )}
-              </Menu.Item>
-            </div>
-          </Menu.Items>
-        </Transition>
-      </Menu>
-    ),
-  },
-];
-
-// Komponen header dengan tombol tambah data
-const CustomHeader = ({ onAddData }) => (
-  <div className="flex items-center justify-between mb-4 p-4 border-b border-gray-200 bg-gray-50">
-    <div>
-      <h2 className="text-xl font-semibold">Status Bot</h2>
-      <p>Buat ditampilin di bagian nomor bot.</p>
-    </div>
-    <button
-      onClick={onAddData}
-      className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
-    >
-      Add Data
-    </button>
-  </div>
-);
+import Swal from "sweetalert2";
+import axios from "axios";
+import { ENDPOINTS } from "../../../utils/contants/endpoint";
+import SwitchToggle from "../../../components/General/DataTables/SwitchToggle";
+import CustomHeader from "../../../components/General/DataTables/CustomHeader";
+import DataTableMain from "../../../components/General/DataTables/DataTableMain";
+import ModalCore from "../../../components/General/Modals/ModalCore";
+import InputText from "../../../components/General/Modals/InputText";
+import { useNavigate } from "react-router-dom";
+import ActionsMenu from "../../../components/General/DataTables/ActionsMenu";
 
 const BotStatus = () => {
-  const [data, setData] = useState(generateCustomData(60));
-  const [searchText, setSearchText] = useState("");
+  const navigate = useNavigate();
 
-  // Fungsi untuk menambahkan data baru
-  const addData = () => {
-    setData((prevData) => [
-      ...prevData,
-      {
-        id: prevData.length + 1,
-        username: faker.internet.userName(),
-        email: faker.internet.email(),
-        isActive: faker.datatype.boolean(),
-      },
-    ]);
+  const [openModal, setOpenModal] = useState(false);
+
+  const [bots, setBots] = useState([]);
+  const [name, setName] = useState("");
+  const [no_wa, setNo_wa] = useState("");
+  const [status, setStatus] = useState(false);
+  // const [reason, setReason] = useState("");
+  const [version, setVersion] = useState("");
+
+  const [loading, setLoading] = useState(true);
+  const [searchText, setSearchText] = useState("");
+  const [editModal, setEditModal] = useState(false);
+  const [currentItem, setCurrentItem] = useState();
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    },
+  });
+
+  const openEditModal = (item) => {
+    setCurrentItem({ ...item });
+    setEditModal(true);
   };
 
-  // Fungsi untuk menangani perubahan teks pencarian
+  const getSuikaBotList = async () => {
+    try {
+      const response = await axios.get(ENDPOINTS.BOTS);
+      setBots(response.data.data.suikaBotList);
+    } catch (error) {
+      if (error.response.status === 403) {
+        navigate("/sb/login");
+      }
+      console.error("Failed to fetch data", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const addSuikaBot = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post(ENDPOINTS.BOTS, {
+        name: name,
+        no_wa: no_wa,
+        status: status,
+        version: version,
+      });
+
+      Swal.fire({
+        title: "Success Add SuikaBot",
+        icon: "success",
+        confirmButtonColor: "#3085d6",
+      }).then(() => {
+        navigate(0);
+      });
+    } catch (error) {
+      console.log(error);
+      if (error.response.data.errors) {
+        const errorMessages = {};
+        error.response.data.errors.forEach((err) => {
+          if (!errorMessages[err.path]) {
+            errorMessages[err.path] = err.msg;
+          }
+        });
+
+        const formattedErrors = Object.values(errorMessages)
+          .map((msg) => `<li>- ${msg}</li>`)
+          .join("");
+
+        Swal.fire({
+          title: "Failed Add Data",
+          html: `<ul>${formattedErrors}</ul>`,
+          icon: "error",
+          confirmButtonColor: "#d33",
+        });
+      } else {
+        Swal.fire({
+          title: "Failed Add Data",
+          text: `${error.response.data.message}`,
+          icon: "error",
+          confirmButtonColor: "#d33",
+        });
+      }
+    }
+  };
+
+  const updateSuikaBot = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.patch(ENDPOINTS.BOTS_ID(currentItem.id), {
+        name: currentItem.name,
+        no_wa: currentItem.no_wa,
+        status: currentItem.status,
+        reason: currentItem.reason || "-",
+        version: currentItem.version,
+      });
+
+      Swal.fire({
+        title: "Success Update Data",
+        icon: "success",
+        confirmButtonColor: "#3085d6",
+      }).then(() => {
+        navigate(0);
+      });
+    } catch (error) {
+      console.log(error);
+      if (error.response.data.errors) {
+        const errorMessages = {};
+        error.response.data.errors.forEach((err) => {
+          if (!errorMessages[err.path]) {
+            errorMessages[err.path] = err.msg;
+          }
+        });
+
+        const formattedErrors = Object.values(errorMessages)
+          .map((msg) => `<li>- ${msg}</li>`)
+          .join("");
+
+        Swal.fire({
+          title: "Failed Update Data",
+          html: `<ul>${formattedErrors}</ul>`,
+          icon: "error",
+          confirmButtonColor: "#d33",
+        });
+      } else {
+        Swal.fire({
+          title: "Failed Update Data",
+          text: `${error.response.data.message}`,
+          icon: "error",
+          confirmButtonColor: "#d33",
+        });
+      }
+    }
+    // closeModal();
+  };
+
+  const activateSuikaBot = async (e, bot) => {
+    const { checked } = e.target;
+
+    try {
+      await axios.patch(ENDPOINTS.BOTS_ID(bot.id), { status: checked });
+      setStatus((prevState) => ({ ...prevState, [bot.id]: checked }));
+      Toast.fire({
+        icon: checked ? "success" : "warning",
+        title: `${bot.name} is ${checked ? "activated" : "deactivated"}`,
+      });
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        title: "Failed Update Data",
+        text: `${error.response?.data?.msg || "An error occurred"}`,
+        icon: "error",
+        confirmButtonColor: "#d33",
+      });
+    }
+  };
+
+  const deleteSuikaBot = async (id) => {
+    try {
+      const response = await axios.get(ENDPOINTS.BOTS_ID(id));
+      const number = response.data.no_wa;
+
+      const result = await Swal.fire({
+        title: "Sure?",
+        html: `Deleted SuikaBot with number "${number}"?`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#a3a5a6",
+        confirmButtonText: "Sure, delete!",
+      });
+      if (result.isConfirmed) {
+        await axios.delete(ENDPOINTS.BOTS_ID(id));
+
+        await Swal.fire({
+          title: "Success Delete Bot",
+          icon: "success",
+          confirmButtonColor: "#3085d6",
+        }).then(() => {
+          navigate(0);
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        title: "Failed Delete Data",
+        text: "An error occurred",
+        icon: "error",
+        confirmButtonColor: "#d33",
+      });
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setCurrentItem((prevItem) => ({
+      ...prevItem,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  useEffect(() => {
+    getSuikaBotList();
+  }, []);
+
   const handleSearch = (event) => {
     setSearchText(event.target.value);
   };
 
-  // Filter data berdasarkan teks pencarian
-  const filteredData = data.filter((item) => {
-    return (
-      item.username.toLowerCase().includes(searchText.toLowerCase()) ||
-      item.email.toLowerCase().includes(searchText.toLowerCase())
-    );
-  });
+  const columns = [
+    { name: "No", selector: (row, index) => index + 1 + ".", sortable: true },
+    { name: "Name", selector: (row) => row.name, sortable: true },
+    { name: "No. WhatsApp", selector: (row) => row.no_wa, sortable: true },
+    {
+      name: "Status",
+      selector: (row) => (row.status ? true : false),
+      cell: (row) => (
+        <SwitchToggle
+          status={status[row.id] !== undefined ? status[row.id] : row.status}
+          onChange={(e) =>
+            activateSuikaBot(e, {
+              status: row.status,
+              id: row.id,
+              name: row.name,
+            })
+          }
+          name={"status"}
+        />
+      ),
+      sortable: true,
+    },
+    { name: "Reason", selector: (row) => row.reason || "-", sortable: true },
+    { name: "Version", selector: (row) => row.version, sortable: true },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <ActionsMenu
+          onEdit={() => openEditModal(row)}
+          onDelete={() => deleteSuikaBot(row.id)}
+        />
+      ),
+    },
+  ];
+
   return (
     <>
       <Helmet>
-        <title>Dashboard | SuikaBot</title>
+        <title>Manage SuikaBot | SuikaBot</title>
       </Helmet>
 
       <Layout bg={"bg-color1"}>
@@ -147,30 +278,142 @@ const BotStatus = () => {
 
         {[
           <div key={2}>
-            <div className="container mx-auto p-4">
-              <CustomHeader onAddData={addData} />
-              <div className="mb-4 flex flex-col sm:flex-row justify-between">
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  value={searchText}
-                  onChange={handleSearch}
-                  className="w-2/4 sm:w-full md:w-2/5 lg:w-2/5 xl:w-1/5  p-2 border border-gray-300 rounded-lg"
-                />
-              </div>
-              <div className="overflow-x-auto">
-                <DataTableBase
-                  columns={columns}
-                  data={filteredData}
-                  pagination
-                  highlightOnHover
-                  pointerOnHover
-                  responsive
-                  fixedHeader
-                  fixedHeaderScrollHeight="500px"
-                />
-              </div>
-            </div>
+            {loading === true ? (
+              "loading..."
+            ) : (
+              <>
+                <div className="container mx-auto p-4">
+                  <CustomHeader
+                    title="Manage SuikaBots"
+                    description="Manage suikabot whatsapp data here"
+                    buttonText="+ Add SuikaBot"
+                    onButtonClick={() => setOpenModal(true)}
+                    overlay={"add-bots-modal"}
+                  />
+                  <DataTableMain
+                    columns={columns}
+                    data={bots}
+                    searchText={searchText}
+                    onSearch={handleSearch}
+                  />
+                </div>
+
+                {/* MODALS ADD */}
+                <ModalCore
+                  title={"Add New SuikaBot"}
+                  btnTitle={"Save"}
+                  formSubmit={addSuikaBot}
+                  openModal={openModal}
+                  actClose={() => setOpenModal(false)}
+                >
+                  <div className="mt-10 grid grid-cols-10 gap-3">
+                    <InputText
+                      name={"name"}
+                      title={"Name"}
+                      type={"text"}
+                      value={name}
+                      inputChange={(e) => setName(e.target.value)}
+                      placeholder={"Suika"}
+                    />
+                    <InputText
+                      name={"no_wa"}
+                      title={"No. WhatsApp"}
+                      type={"text"}
+                      value={no_wa}
+                      inputChange={(e) => setNo_wa(e.target.value)}
+                      placeholder={"0896xxxxxx"}
+                    />
+                  </div>
+                  <div className="mt-10 grid grid-cols-10 gap-3">
+                    <InputText
+                      name={"version"}
+                      title={"Version"}
+                      type={"text"}
+                      value={version}
+                      inputChange={(e) => setVersion(e.target.value)}
+                      placeholder={"v1.x"}
+                    />
+                    <div className="col-span-5">
+                      <label
+                        htmlFor={`hs-is-active`}
+                        className="block text-md font-medium mb-2 dark:text-color4"
+                      >
+                        Status
+                      </label>
+                      <SwitchToggle
+                        status={status}
+                        onChange={(e) => {
+                          setStatus(e.target.checked);
+                        }}
+                      />
+                    </div>
+                  </div>
+                </ModalCore>
+
+                {/* MODALS UPDATE */}
+                {editModal && currentItem && (
+                  <ModalCore
+                    title={"Update SuikaBot"}
+                    btnTitle={"Update"}
+                    formSubmit={updateSuikaBot}
+                    openModal={editModal}
+                    actClose={() => setEditModal(false)}
+                  >
+                    <div className="mt-10 grid grid-cols-10 gap-3">
+                      <InputText
+                        name={"name"}
+                        title={"Name"}
+                        type={"text"}
+                        value={currentItem.name}
+                        inputChange={handleChange}
+                        placeholder={"Suika"}
+                      />
+                      <InputText
+                        name={"no_wa"}
+                        title={"No. WhatsApp"}
+                        type={"text"}
+                        value={currentItem.no_wa}
+                        inputChange={handleChange}
+                        placeholder={"0986xxxxxxx"}
+                      />
+                    </div>
+                    <div className="mt-3 grid grid-cols-10 gap-3">
+                      <InputText
+                        name={"reason"}
+                        title={"Reason"}
+                        type={"text"}
+                        value={currentItem.reason || ""}
+                        inputChange={handleChange}
+                        placeholder={"ex: banned"}
+                      />
+                      <InputText
+                        name={"version"}
+                        title={"Version"}
+                        type={"text"}
+                        value={currentItem.version}
+                        inputChange={handleChange}
+                        placeholder={"v1.x"}
+                      />
+                    </div>
+                    <div className="mt-3 grid grid-cols-10 gap-3">
+                      <div className="col-span-5">
+                        <label
+                          htmlFor={`hs-is-active`}
+                          className="block text-md font-medium mb-2 dark:text-color4"
+                        >
+                          Status
+                        </label>
+                        <SwitchToggle
+                          status={currentItem.status}
+                          onChange={handleChange}
+                          name={"status"}
+                        />
+                      </div>
+                    </div>
+                  </ModalCore>
+                )}
+              </>
+            )}
           </div>,
         ]}
       </Layout>

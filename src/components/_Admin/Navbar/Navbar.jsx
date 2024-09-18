@@ -1,16 +1,9 @@
-import React, { useContext, useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 
 import SuikaIcon from "../../../assets/suika-icon-text.webp";
-import TempPic from "../../../assets/favicon.svg";
-import Search from "./Search";
 import LogoutComponent from "../../General/Auth/LogoutComponent";
 import { useUser } from "../../../context/UserContext";
 import { Avatar } from "flowbite-react";
-import Breadcrumbs from "../Sidebar/Breadcrumbs";
-import SidebarToggle from "../../../utils/hooks/SidebarToggle";
 
 const Navbar = () => {
   const { getUserData } = useUser();
@@ -18,6 +11,7 @@ const Navbar = () => {
 
   const words = data.name.split(" ");
   const initials = words.map((word) => word.charAt(0).toUpperCase()).join("");
+
   return (
     <>
       <nav className="sticky top-0 inset-x-0  z-30 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -167,7 +161,7 @@ const Navbar = () => {
                         <span className="font-semibold text-gray-900 dark:text-white">
                           Bonnie Green
                         </span>
-                        : "Hey, what's up? All set for the presentation?"
+                        : {"Hey, what's up? All set for the presentation?"}
                       </div>
                       <div className="text-xs font-medium text-primary-700 dark:text-primary-400">
                         a few moments ago
@@ -328,11 +322,12 @@ const Navbar = () => {
                     data-dropdown-toggle="dropdown-2"
                   >
                     <span className="sr-only">Open user menu</span>
-                    <img
+                    <Avatar placeholderInitials={initials} img={""} rounded />
+                    {/* <img
                       className="w-8 h-8 rounded-full"
                       src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                       alt="user photo"
-                    />
+                    /> */}
                   </button>
                 </div>
                 <div
@@ -355,13 +350,13 @@ const Navbar = () => {
                   </div>
                   <ul className="py-1" role="none">
                     <li>
-                      <a
-                        href="#"
+                      <Link
+                        to={"/sb/dashboard"}
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                         role="menuitem"
                       >
                         Dashboard
-                      </a>
+                      </Link>
                     </li>
                     <hr />
                     <li className="mx-3 my-2">

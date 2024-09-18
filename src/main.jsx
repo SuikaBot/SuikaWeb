@@ -8,6 +8,8 @@ import App from "./App.jsx";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "react-medium-image-zoom/dist/styles.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 import "flowbite";
 

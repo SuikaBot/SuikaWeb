@@ -2,15 +2,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import CountUp from "react-countup";
 
-const Stat = (props) => {
+const Stat = ({ mainIcon, title, loading, number, additional }) => {
+  console.log(number);
   return (
     <div className="z-1 p-4 md:p-5 relative before:absolute before:top-0 before:start-0 before:w-full before:h-px sm:before:w-px sm:before:h-full before:bg-gray-200 before:first:bg-transparent">
-      <div>
-        <FontAwesomeIcon className="text-gray-500" icon={props.mainIcon} />
+      <div className="">
+        <FontAwesomeIcon
+          className="text-gray-500 hidden sm:block"
+          icon={mainIcon}
+        />
         <div className="mt-3">
           <div className="flex items-center gap-x-2">
-            <p className="text-xs uppercase tracking-wide text-gray-950">
-              {props.title}
+            <p className="text-md sm:text-xs uppercase tracking-wide text-gray-950">
+              <FontAwesomeIcon
+                className="text-gray-500 sm:hidden"
+                icon={mainIcon}
+              />
+              <span className="ml-2 sm:ml-auto">{title}</span>
             </p>
             {/* <div className="hs-tooltip">
               <div className="hs-tooltip-toggle">
@@ -29,7 +37,7 @@ const Stat = (props) => {
           </div>
           <div className="mt-1 lg:flex lg:justify-between lg:items-center">
             <h3 className="text-xl sm:text-2xl font-semibold text-gray-800">
-              {props.loading ? (
+              {loading ? (
                 <>
                   <div className="flex justify-start animate-pulse">
                     <div
@@ -42,34 +50,22 @@ const Stat = (props) => {
                     <h6 className="text-md ml-4">Loading...</h6>
                   </div>
                 </>
-              ) : props.number ? (
+              ) : number >= 0 ? (
                 <>
                   <CountUp
                     start={0}
-                    end={props.number}
+                    end={number}
                     duration={4}
                     // enableScrollSpy={true}
                   >
-                    <span ref={props.number} />
+                    <span ref={number} />
                   </CountUp>
-                  {props.additional}
+                  {additional}
                 </>
               ) : (
-                props.additional
+                additional
               )}
             </h3>
-            {/* <p className="mt-1 lg:mt-0 min-h-[24px] inline-flex items-center gap-x-1 py-0.5 px-2 text-orange-700 bg-orange-200/70 hover:bg-orange-200 rounded-md">
-              <FontAwesomeIcon
-                icon={
-                  props.statusDataIcon
-                    ? props.statusDataIcon
-                    : "fa-solid fa-triangle-exclamation"
-                }
-              />
-              <span className="inline-block text-xs font-semibold">
-                {props.statusData ? props.statusData : "static data"}
-              </span>
-            </p> */}
           </div>
         </div>
       </div>

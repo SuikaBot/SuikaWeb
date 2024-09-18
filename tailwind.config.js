@@ -24,6 +24,9 @@ export default {
         light: "#ecf0f1",
         "light-hover": "#bdc3c7",
       },
+      backgroundImage: {
+        "bg1": "url('/src/assets/squared-bg-element.svg')",
+      }
     },
   },
   plugins: [flowbite],
