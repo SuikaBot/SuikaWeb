@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import axios from "axios";
@@ -22,30 +22,27 @@ const LoginComponent = () => {
     });
   };
 
-  const authService = {
-    login: async (email, password) => {
-      try {
-        const response = await axios.post(ENDPOINTS.LOGIN, {
-          email: email,
-          password: password,
-        });
-        const data = response.data.data;
-        return data;
-      } catch (error) {
-        throw error;
-      }
-    },
-  };
-
   const Login = async (e) => {
     e.preventDefault();
-    try {
-      const response = await authService.login(email, password);
-      localStorage.setItem("user_data", JSON.stringify(response));
+    Swal.fire({
+      title: "Checking...",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
 
+    try {
+      const response = await axios.post(ENDPOINTS.LOGIN, {
+        email: email,
+        password: password,
+      });
+
+      const data = response.data.data;
+      localStorage.setItem("user_data", JSON.stringify(data));
       Swal.fire({
         title: "Login Success!",
-        html: `Welcome back ${response.name}`,
+        html: `Welcome back ${data.name}`,
         icon: "success",
         confirmButtonColor: "#3085d6",
       }).then(() => {
@@ -83,7 +80,7 @@ const LoginComponent = () => {
           } else {
             setErrors(formattedErrors);
             for (let key in formattedErrors) {
-              if (formattedErrors.hasOwnProperty(key)) {
+              if (Object.prototype.hasOwnProperty.call(formattedErrors, key)) {
                 const prefix =
                   Object.keys(formattedErrors).length > 1 ? "-" : "";
                 errorMessages += `<li>${prefix} ${formattedErrors[key]}</li>`;
@@ -126,7 +123,7 @@ const LoginComponent = () => {
                 Sign in
               </h1>
               <p className="mt-2 text-sm text-gray-600">
-                Don't have an account yet?{" "}
+                {"Don't have an account yet?"}{" "}
                 <NavLink
                   className="text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium"
                   to="/sb/register"

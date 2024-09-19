@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import axios from "axios";
@@ -18,6 +18,14 @@ const RegisterComponent = () => {
 
   const Register = async (e) => {
     e.preventDefault();
+    Swal.fire({
+      title: "Loading...",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
     try {
       await axios.post(ENDPOINTS.REGISTER, {
         name: name,
@@ -39,17 +47,19 @@ const RegisterComponent = () => {
       if (error.response && error.response.data) {
         const errorsArray = error.response.data.errors || [];
 
-        // Format errors into an object, but only keep the first error for each field
         const formattedErrors = errorsArray.reduce((acc, { path, msg }) => {
-          if (!acc[path]) acc[path] = msg; // Only keep the first message for each field
+          if (!acc[path]) acc[path] = msg;
           return acc;
         }, {});
 
-        setErrors(formattedErrors);
-
         let errorMessages = "<ul>";
-        for (const [field, message] of Object.entries(formattedErrors)) {
-          errorMessages += `<li>${message}</li>`;
+
+        setErrors(formattedErrors);
+        for (let key in formattedErrors) {
+          if (Object.prototype.hasOwnProperty.call(formattedErrors, key)) {
+            const prefix = Object.keys(formattedErrors).length > 1 ? "-" : "";
+            errorMessages += `<li>${prefix} ${formattedErrors[key]}</li>`;
+          }
         }
         errorMessages += "</ul>";
 
@@ -75,7 +85,6 @@ const RegisterComponent = () => {
     }
   };
 
-  // console.log(errors);
   return (
     <>
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-green-400 to-blue-500">
