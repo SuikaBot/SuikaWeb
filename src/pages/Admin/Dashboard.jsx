@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
@@ -10,11 +10,7 @@ import DashBox from "../../components/_Admin/DashBox/DashBox";
 import ContentBox from "../../components/_Admin/DashBox/ContentBox";
 import { LoadingSpinner } from "../../components/General/Loading";
 import DataTableBase from "../../components/General/DataTableBase";
-import {
-  AreaChart,
-  BarChart,
-  RadialBarChart,
-} from "../../components/General/Chart/Charts";
+import { RadialBarChart } from "../../components/General/Chart/Charts";
 import { ENDPOINTS } from "../../utils/contants/endpoint";
 
 const Dashboard = () => {

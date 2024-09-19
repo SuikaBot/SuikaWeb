@@ -1,4 +1,3 @@
-import React from "react";
 import RegisterComponent from "../../components/General/Auth/RegisterComponent";
 import { Helmet } from "react-helmet-async";
 

@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Breadcrumb from "./Breadcrumb";
 
-const Breadcrumbs = (props) => {
+const Breadcrumbs = () => {
   const [breadcrumbs, setBreadcrumbs] = useState([]);
   const location = useLocation();
 

@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 const BotGo = (props) => {
   const MySwal = withReactContent(Swal);
 
-  const handleClick = (e) => {
+  const handleClick = () => {
     MySwal.fire({
       icon: "warning",
       title: "Gagal",

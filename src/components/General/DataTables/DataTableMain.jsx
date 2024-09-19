@@ -1,4 +1,3 @@
-import React from "react";
 import DataTableBase from "../DataTableBase";
 
 const DataTableMain = ({ columns, data, searchText, onSearch, ...props }) => {

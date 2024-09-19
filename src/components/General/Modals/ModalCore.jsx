@@ -1,5 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
 import { Button, Modal } from "flowbite-react";
 
 const ModalCore = ({

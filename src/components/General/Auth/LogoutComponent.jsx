@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { ENDPOINTS } from "../../../utils/contants/endpoint";
