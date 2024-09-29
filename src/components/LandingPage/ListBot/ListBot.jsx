@@ -97,10 +97,13 @@ const ListBot = () => {
                         active={activeTab === tabId}
                         name={`${index + 1}. ${bot.name} | ${
                           bot.status ? "Online" : "Offline"
-                        } ${
-                          bot.reason === null || bot.reason === "-"
-                            ? ""
-                            : `(${bot.reason})`
+                        }${
+                          bot.reason &&
+                          bot.reason !== "-" &&
+                          !bot.reason.includes("Banned") &&
+                          !bot.reason.includes("Backup")
+                            ? `(${bot.reason})`
+                            : ""
                         }`}
                         phone={bot.no_wa}
                         reason={bot.reason}
@@ -119,7 +122,7 @@ const ListBot = () => {
             >
               <div className="relative">
                 {loading ? (
-                  <BoxImgLoading />
+                  <BoxImgLoading status={loading} />
                 ) : (
                   bots.map((bot, index) => {
                     const tabId = `tabs-with-card-${index + 1}`;

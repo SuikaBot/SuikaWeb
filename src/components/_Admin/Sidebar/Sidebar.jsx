@@ -85,10 +85,10 @@ const Sidebar = () => {
                         <li key={menu.name} className="">
                           <button
                             type="button"
-                            className={`flex items-center w-full p-2 text-md transition duration-75 rounded-lg group ${
+                            className={`shadow-md flex items-center w-full px-3 py-4 text-md transition duration-75 rounded-lg group ${
                               isSubMenuActive(menu.sub_menu)
-                                ? "text-gray-900 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 font-semibold"
-                                : "text-gray-900 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                                ? "text-gray-900 dark:text-gray-200 bg-color1 dark:bg-gray-700 font-semibold"
+                                : "text-gray-900 dark:text-gray-200 bg-neutral-100 hover:bg-color1 dark:hover:bg-gray-700"
                             }
                               `}
                             onClick={() => toggleDropdown(menu.name)}
@@ -118,10 +118,10 @@ const Sidebar = () => {
                               <li key={subMenu.name}>
                                 <NavLink
                                   className={({ isActive }) =>
-                                    `flex items-center p-2 text-base  transition duration-75 rounded-lg pl-11 group ${
+                                    `shadow-md text-sm flex items-center py-2 ml-5 text-base transition duration-75 rounded-lg px-4 group ${
                                       isActive
-                                        ? "text-gray-900 bg-gray-100 dark:text-gray-200 dark:bg-gray-700 font-semibold"
-                                        : "text-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                                        ? "text-gray-900 bg-color1 dark:text-gray-200 dark:bg-gray-700 font-semibold"
+                                        : "text-gray-900 bg-neutral-100 hover:bg-color1 dark:text-gray-200 dark:hover:bg-gray-700"
                                     }`
                                   }
                                   to={subMenu.path}
@@ -138,10 +138,10 @@ const Sidebar = () => {
                             onClick={() => deleteDropdown()}
                             to={menu.path}
                             className={({ isActive }) =>
-                              `flex items-center p-2 text-md rounded-lg group ${
+                              `shadow-md flex items-center px-3 py-4 text-md rounded-lg group ${
                                 isActive
-                                  ? "text-gray-900 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 font-semibold"
-                                  : "text-gray-900 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                                  ? "text-gray-900 dark:text-gray-200 bg-color1 dark:bg-gray-700 font-semibold"
+                                  : "text-gray-900 dark:text-gray-200 bg-neutral-100 hover:bg-color1 dark:hover:bg-gray-700"
                               }`
                             }
                           >

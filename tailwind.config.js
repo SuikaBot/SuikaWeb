@@ -11,7 +11,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        color1: "#ECF4D6",
+        color1: "#dfefb9",
         color2: "#9AD0C2",
         "color2-hover": "#33A9AB",
         color3: "#2D9596",
@@ -23,6 +23,7 @@ export default {
         "danger-hover": "#c0392b",
         light: "#ecf0f1",
         "light-hover": "#bdc3c7",
+        "color1-dark": "#c1d790"
       },
       backgroundImage: {
         "bg1": "url('/src/assets/squared-bg-element.svg')",

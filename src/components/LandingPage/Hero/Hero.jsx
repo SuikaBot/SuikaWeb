@@ -4,8 +4,16 @@ import Zoom from "react-medium-image-zoom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import SuikaLogo from "../../../assets/favicon.svg";
+import { useState } from "react";
+import { ImgLoading } from "../../General/Loading";
 
 const Hero = () => {
+  const [loading, setLoading] = useState(true);
+
+  const handleLoad = () => {
+    setLoading(false);
+  };
+
   return (
     <section id="home">
       <div
@@ -14,7 +22,14 @@ const Hero = () => {
         <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10">
           <div className="flex justify-center items-center">
             <Zoom>
-              <img className="h-40 md:h-60" src={SuikaLogo} alt="" />
+              {loading && <p>{`"Loading Icon"`}</p>}
+
+              <img
+                className={`h-40 md:h-60 ${loading ? "hidden" : "block"}`}
+                onLoad={handleLoad}
+                src={SuikaLogo}
+                alt="Suika Logo"
+              />
             </Zoom>
           </div>
 

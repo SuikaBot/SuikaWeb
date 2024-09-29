@@ -47,76 +47,32 @@ const dashboardNav = [
     ],
   },
   {
-    label: "Testing ajah (1)",
+    label: "Bot's Management",
     items: [
       {
-        name: "Testing (1.1)",
+        name: "SuikaBot",
         icon: "fa-solid fa-user-group",
         path: "#",
         sub_menu: [
           {
-            name: "SubNav Testing (1.1.1)",
+            name: "Restart Bot",
             icon: "fa-solid fa-circle",
             path: "/sb/subnavtesting111",
           },
-          {
-            name: "SubNav Testing (1.1.2)",
-            icon: "fa-solid fa-circle",
-            path: "/sb/subnavtesting112",
-          },
-          {
-            name: "SubNav Testing (1.1.3)",
-            icon: "fa-solid fa-circle",
-            path: "/sb/subnavtesting113",
-          },
-        ],
-      },
-      {
-        name: "Testing (1.2)",
-        icon: "fa-solid fa-user-group",
-        path: "#",
-        sub_menu: [
-          {
-            name: "SubNav Testing (1.2.1)",
-            icon: "fa-solid fa-circle",
-            path: "/sb/subnavtesting121",
-          },
         ],
       },
     ],
   },
-  {
-    label: "Testing ajah (2)",
-    items: [
-      {
-        name: "Testing (2)",
-        icon: "fa-solid fa-user-group",
-        path: "#",
-        sub_menu: [
-          {
-            name: "SubNav Testing (1)",
-            icon: "fa-solid fa-circle",
-            path: "/sb/subnavtesting2.1",
-          },
-          {
-            name: "SubNav Testing (2)",
-            icon: "fa-solid fa-circle",
-            path: "/sb/subnavtesting2.2",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    label: "Testing ajah (3)",
-    items: [
-      {
-        name: "Testing (3.1)",
-        icon: "fa-solid fa-user-group",
-        path: "/sb/subnavtesting3.1",
-      },
-    ],
-  },
+  // {
+  //   label: "Testing ajah (3)",
+  //   items: [
+  //     {
+  //       name: "Testing (3.1)",
+  //       icon: "fa-solid fa-user-group",
+  //       path: "/sb/subnavtesting3.1",
+  //     },
+  //   ],
+  // },
 ];
 
 const homeNav = [
@@ -131,6 +87,10 @@ const homeNav = [
   {
     name: "Kata Mereka",
     link: "kata-mereka",
+  },
+  {
+    name: "Leaderboard",
+    link: "traktir-leaderboard",
   },
   {
     name: "Nomor Bot",

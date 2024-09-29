@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Breadcrumb = ({ breadcrumbs }) => {
-  //   if (breadcrumbs.length <= 1) return null;
   return (
     <>
       {breadcrumbs.map((breadcrumb, index) => (

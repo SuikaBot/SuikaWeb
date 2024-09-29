@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 import Swal from "sweetalert2";
+import Cookies from "js-cookie";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { ENDPOINTS } from "../../../utils/contants/endpoint";
@@ -11,6 +12,8 @@ const LoginComponent = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const refreshToken = Cookies.get("refresh_token", { path: "/" });
+  // console.log("Refresh token:", refreshToken);
 
   const navigate = useNavigate();
 
@@ -42,13 +45,14 @@ const LoginComponent = () => {
       localStorage.setItem("user_data", JSON.stringify(data));
       Swal.fire({
         title: "Login Success!",
-        html: `Welcome back ${data.name}`,
+        html: `Welcome ${data.name}`,
         icon: "success",
         confirmButtonColor: "#3085d6",
       }).then(() => {
         navigate("/sb/dashboard");
       });
     } catch (error) {
+      console.log(error);
       if (error.response && error.response.data) {
         const errorsArray = error.response.data.errors || [];
 
@@ -116,13 +120,13 @@ const LoginComponent = () => {
   return (
     <>
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-green-400 to-blue-500">
-        <div className="w-full max-w-[25rem] sm:max-w-[30rem]">
+        <div className="w-full max-w-[25rem] sm:max-w-[30rem] mx-3">
           <div className="p-4 sm:p-7 rounded-xl bg-white border border-gray-200  shadow-sm">
             <div className="text-center">
               <h1 className="block text-2xl font-bold text-gray-800">
                 Sign in
               </h1>
-              <p className="mt-2 text-sm text-gray-600">
+              {/* <p className="mt-2 text-sm text-gray-600">
                 {"Don't have an account yet?"}{" "}
                 <NavLink
                   className="text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium"
@@ -130,10 +134,10 @@ const LoginComponent = () => {
                 >
                   Sign up here
                 </NavLink>
-              </p>
+              </p> */}
             </div>
 
-            <div className="mt-5">
+            <div className="my-5">
               {/* <button
                 type="button"
                 className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
@@ -283,8 +287,15 @@ const LoginComponent = () => {
                   </button>
                 </div>
               </form>
+
               {/* <!-- End Form --> */}
             </div>
+            <Link
+              to={"/"}
+              className="text-sm font-semibold text-blue-500 underline"
+            >
+              <FontAwesomeIcon icon="fa-solid fa-chevron-left" /> Landingpage
+            </Link>
           </div>
         </div>
       </div>

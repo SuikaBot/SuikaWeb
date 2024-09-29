@@ -14,7 +14,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="sticky top-0 inset-x-0  z-30 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+      <nav className="sticky top-0 inset-x-0  z-30 w-full bg-gradient-to-b from-color1 to-color1-dark border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div className="px-3 py-3 lg:px-5 lg:pl-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center justify-start">
@@ -22,7 +22,7 @@ const Navbar = () => {
                 id="toggleSidebarMobile"
                 aria-expanded="true"
                 aria-controls="sidebar"
-                className="p-2 text-gray-600 rounded cursor-pointer lg:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                className="p-1 text-gray-600 rounded shadow-sm bg-gray-50 border border-gray-300 cursor-pointer lg:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 <svg
                   id="toggleSidebarMobileHamburger"

@@ -17,7 +17,6 @@ import NotFound from "./pages/Landingpage/NotFound";
 import AdminNotFound from "./pages/Admin/AdminNotFound";
 import BotStatus from "./pages/Admin/WebManagement/BotStatus";
 import LoginPage from "./pages/Auth/LoginPage";
-import RegisterPage from "./pages/Auth/RegisterPage";
 import { UserProvider } from "./context/UserContext";
 import ManageUsers from "./pages/Admin/UsersManagement/ManageUsers";
 
@@ -57,16 +56,6 @@ const App = () => {
                   <Navigate to={"/sb/dashboard"} />
                 ) : (
                   <LoginPage />
-                )
-              }
-            />
-            <Route
-              path="/sb/register"
-              element={
-                isAuthenticated() ? (
-                  <Navigate to={"/sb/dashboard"} />
-                ) : (
-                  <RegisterPage />
                 )
               }
             />

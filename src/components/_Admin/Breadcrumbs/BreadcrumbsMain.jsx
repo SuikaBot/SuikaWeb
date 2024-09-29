@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Breadcrumb from "./Breadcrumb";
 
-const Breadcrumbs = () => {
+const BreadcrumbsMain = () => {
   const [breadcrumbs, setBreadcrumbs] = useState([]);
   const location = useLocation();
 
@@ -15,7 +15,7 @@ const Breadcrumbs = () => {
   }, [location]);
 
   return (
-    <div className="mt-16 fixed top-15 inset-x-0 z-20 bg-white border-y px-4 sm:px-6 lg:px-8 lg:hidden">
+    <div className="fixed top-10 mt-6 inset-x-0 z-5 bg-white border-y px-4 sm:px-6 lg:px-8 lg:hidden">
       <div className="flex items-center py-2">
         {/* <!-- Breadcrumb --> */}
         <ol className="ms-3 flex items-center whitespace-nowrap">
@@ -27,4 +27,4 @@ const Breadcrumbs = () => {
   );
 };
 
-export default Breadcrumbs;
+export default BreadcrumbsMain;

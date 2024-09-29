@@ -19,9 +19,7 @@ const Stats = () => {
       setPersonal(data.detail[0].total);
       setGrup(data.detail[1].total);
       setTotal(data.total);
-      // console.log(data.detail[0].total);
     } catch (error) {
-      // console.error("Error fetching data:", error);
       ("");
     } finally {
       setLoading({ identities: false });
@@ -34,7 +32,6 @@ const Stats = () => {
       const data = response.data.data.suikaActive;
       setVersion(data.version);
     } catch (error) {
-      // console.error("Error fetching data:", error);
       ("");
     } finally {
       setLoading({ version: false });
@@ -46,11 +43,9 @@ const Stats = () => {
     getVersion();
   }, []);
 
-  // console.log(personal);
-  // console.log(loading.identities);
   return (
     <div
-      className="max-w-[65rem] rounded-lg  bg-white mx-8 px-4 py-5 sm:px-5 sm:py-4 sm:mx-10 md:py-5 md:mx-16 lg:px-8 lg:py-5 lg:mx-auto"
+      className="max-w-[65rem] rounded-lg bg-white mx-4 px-4 py-5 sm:px-5 sm:py-4 sm:mx-10 md:py-5 md:mx-16 lg:px-8 lg:py-5 lg:mx-auto"
       data-aos="fade-up"
       data-aos-duration="900"
     >

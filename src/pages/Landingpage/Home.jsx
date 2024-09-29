@@ -9,6 +9,7 @@ import Navbar from "../../components/LandingPage/Navbar/Navbar";
 
 import Stats from "../../components/LandingPage/Stats/Stats";
 import Testimonials from "../../components/LandingPage/Testimonials/Testimonials";
+import TraktirLeaderboard from "../../components/LandingPage/TraktirLeaderboard/TraktirLeaderboard";
 
 const Home = () => {
   return (
@@ -23,8 +24,9 @@ const Home = () => {
           <Stats />
           <About />
           <Testimonials />
+          <TraktirLeaderboard />
           <ListBot />
-          <AnnounceBanner />
+          {/* <AnnounceBanner /> */}
         </main>
         <Footer />
       </section>

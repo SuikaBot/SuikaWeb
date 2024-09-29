@@ -1,6 +1,7 @@
 import { Menu, Transition } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "flowbite-react";
+import { Fragment } from "react";
 
 const ActionsMenu = ({ onEdit, onDelete, hidden }) => (
   <Menu as="div" className="relative">

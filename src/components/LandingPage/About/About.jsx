@@ -3,19 +3,34 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Zoom from "react-medium-image-zoom";
 
 import AboutImg from "../../../assets/about-img.svg";
+import Waves from "../../../assets/waves.svg";
+import Waves2 from "../../../assets/waves2.svg";
+import { useState } from "react";
+import { BoxImgLoading } from "../../General/Loading";
 
 const About = () => {
+  const [loading, setLoading] = useState(true);
+  const handleLoad = () => {
+    setLoading(false);
+  };
   return (
     <>
       <section id="about">
         <div className="bg-neutral-50 mt-16">
+          <img src={Waves} alt="" className="w-full" />
+
           <div className="max-w-[70rem] px-8 py-10 sm:px-10 md:px-14 lg:px-8 lg:py-14 lg:mx-auto">
             <div className="md:grid md:grid-cols-2 md:items-center md:gap-12 xl:gap-32">
+              <h2 className="md:hidden mb-5 font-bold text-3xl lg:text-4xl text-gray-800">
+                Apa, SuikaBot?
+              </h2>
               <div data-aos="fade-up" data-aos-duration="1200">
+                {loading && <BoxImgLoading />}
                 <Zoom>
                   <img
-                    className="rounded-xl"
+                    className={`rounded-xl ${loading ? "hidden" : "block"}`}
                     src={AboutImg}
+                    onLoad={handleLoad}
                     alt="Image Description"
                   />
                 </Zoom>
@@ -28,7 +43,7 @@ const About = () => {
                     data-aos="fade-up"
                     data-aos-duration="900"
                   >
-                    <h2 className="font-bold text-3xl lg:text-4xl text-gray-800">
+                    <h2 className="hidden md:block font-bold text-3xl lg:text-4xl text-gray-800">
                       Apa, SuikaBot?
                     </h2>
                     <div className="text-gray-500 text-justify text-lg">
@@ -115,6 +130,7 @@ const About = () => {
               </div>
             </div>
           </div>
+          <img src={Waves2} alt="" className="rotate-180 w-full" />
         </div>
       </section>
     </>

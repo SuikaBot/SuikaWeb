@@ -1,38 +1,37 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+
+import axios from "axios";
+import Swal from "sweetalert2";
 import Layout from "../../../components/_Admin/Layout/Layout";
+import { ENDPOINTS } from "../../../utils/contants/endpoint";
+
 import ActionsMenu from "../../../components/General/DataTables/ActionsMenu";
 import CustomHeader from "../../../components/General/DataTables/CustomHeader";
 import DataTableMain from "../../../components/General/DataTables/DataTableMain";
-import axios from "axios";
-import { ENDPOINTS } from "../../../utils/contants/endpoint";
 import SwitchToggle from "../../../components/General/DataTables/SwitchToggle";
-import ModalCore from "../../../components/General/Modals/ModalCore";
-import Swal from "sweetalert2";
-import InputText from "../../../components/General/Modals/InputText";
-import InputRadio from "../../../components/General/Modals/InputRadio";
-import { useNavigate } from "react-router-dom";
 import DashBox from "../../../components/_Admin/DashBox/DashBox";
+import { ListLoading } from "../../../components/General/Loading";
+import ModalAddUsers from "../../../components/_Admin/ManageUsers/ModalAddUsers";
+import ModalUpdateUsers from "../../../components/_Admin/ManageUsers/ModalUpdateUsers";
+import BreadcrumbsMain from "../../../components/_Admin/Breadcrumbs/BreadcrumbsMain";
 
 const ManageUsers = () => {
   const navigate = useNavigate();
   const token = JSON.parse(localStorage.getItem("user_data")).access_token;
 
   const [openModal, setOpenModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
+  const [currentItem, setCurrentItem] = useState();
 
   const [users, setUsers] = useState([]);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confPassword, setConfPassword] = useState("");
-  const [role, setRole] = useState();
+
   const [isActive, setIsActive] = useState(false);
   const [activatedUser, setActivatedUser] = useState("");
 
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
-  const [editModal, setEditModal] = useState(false);
-  const [currentItem, setCurrentItem] = useState();
 
   const Toast = Swal.mixin({
     toast: true,
@@ -49,104 +48,6 @@ const ManageUsers = () => {
   const openEditModal = (item) => {
     setCurrentItem({ ...item });
     setEditModal(true);
-  };
-
-  const addUser = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post(
-        ENDPOINTS.USERS,
-        {
-          name: name,
-          email: email,
-          password: password,
-          confPassword: confPassword,
-          role: role,
-          is_active: isActive,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      Swal.fire({
-        title: "Success Add Data",
-        icon: "success",
-        confirmButtonColor: "#3085d6",
-      }).then(() => {
-        // navigate(0);
-      });
-    } catch (error) {
-      if (error.response.data.errors) {
-        const errorMessages = {};
-        error.response.data.errors.forEach((err) => {
-          if (!errorMessages[err.path]) {
-            errorMessages[err.path] = err.msg;
-          }
-        });
-
-        const formattedErrors = Object.values(errorMessages)
-          .map((msg) => `<li>- ${msg}</li>`)
-          .join("");
-
-        Swal.fire({
-          title: "Failed Add Data",
-          html: `<ul>${formattedErrors}</ul>`,
-          icon: "error",
-          confirmButtonColor: "#d33",
-        });
-      } else {
-        Swal.fire({
-          title: "Failed Add Data",
-          text: `${error.response.data.message}`,
-          icon: "error",
-          confirmButtonColor: "#d33",
-        });
-      }
-    }
-  };
-
-  const updateUser = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.patch(
-        ENDPOINTS.USERS_ID(currentItem.uuid),
-        {
-          name: currentItem.name,
-          email: currentItem.email,
-          password: currentItem.password ? currentItem.password : "",
-          confPassword: currentItem.confPassword
-            ? currentItem.confPassword
-            : "",
-          role: currentItem.role,
-          is_active: currentItem.is_active,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      Swal.fire({
-        title: "Success Update Data",
-        icon: "success",
-        confirmButtonColor: "#3085d6",
-      }).then(() => {
-        // navigate(0);
-      });
-    } catch (error) {
-      console.log(error);
-      Swal.fire({
-        title: "Failed Update Data",
-        text: `${error.response.data.msg}`,
-        icon: "error",
-        confirmButtonColor: "#d33",
-      });
-    }
-    // closeModal();
   };
 
   const activateUser = async (e, user) => {
@@ -232,14 +133,6 @@ const ManageUsers = () => {
     }
   };
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setCurrentItem((prevItem) => ({
-      ...prevItem,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
-
   useEffect(() => {
     const getDataUsers = async () => {
       try {
@@ -323,6 +216,14 @@ const ManageUsers = () => {
     { value: "user", name: "User" },
   ];
 
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setCurrentItem((prevItem) => ({
+      ...prevItem,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
   return (
     <>
       <Helmet>
@@ -331,8 +232,9 @@ const ManageUsers = () => {
       <Layout bg={"bg-color1"}>
         {[
           <div key={1}>
-            <div className="container mx-auto">
-              <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6">
+            <BreadcrumbsMain />
+            <div className="mx-auto">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                 <DashBox
                   name={"Total Users"}
                   hidden={"hidden"}
@@ -351,8 +253,17 @@ const ManageUsers = () => {
         ]}
         {[
           <div key={2}>
-            {loading === true ? (
-              "loading..."
+            {loading ? (
+              <div className="container p-4">
+                <CustomHeader
+                  title="Manage Users"
+                  description="Manage users data here"
+                  buttonText="+ Add Users"
+                  onButtonClick={() => setOpenModal(true)}
+                  overlay={"add-user-modal"}
+                />
+                <ListLoading />
+              </div>
             ) : (
               <>
                 <div className="container p-4">
@@ -372,167 +283,22 @@ const ManageUsers = () => {
                 </div>
 
                 {/* MODALS ADD */}
-                <ModalCore
-                  title={"Add New User"}
-                  btnTitle={"Save"}
-                  formSubmit={addUser}
-                  openModal={openModal}
-                  actClose={() => setOpenModal(false)}
-                >
-                  <div className="mt-10 grid grid-cols-10 gap-3">
-                    <InputText
-                      name={"name"}
-                      title={"Name"}
-                      type={"text"}
-                      value={name}
-                      inputChange={(e) => setName(e.target.value)}
-                      placeholder={"Suika"}
-                    />
-                    <InputText
-                      name={"email"}
-                      title={"Email"}
-                      type={"email"}
-                      value={email}
-                      inputChange={(e) => setEmail(e.target.value)}
-                      placeholder={"dev@suika.pw"}
-                    />
-                  </div>
-                  <div className="mt-3 grid grid-cols-10 gap-3">
-                    <InputText
-                      name={"password"}
-                      title={"Password"}
-                      type={"password"}
-                      value={password}
-                      inputChange={(e) => setPassword(e.target.value)}
-                      placeholder={"*****"}
-                    />
-                    <InputText
-                      name={"confPassword"}
-                      title={"Conf Password"}
-                      type={"password"}
-                      value={confPassword}
-                      inputChange={(e) => setConfPassword(e.target.value)}
-                      placeholder={"*****"}
-                    />
-                  </div>
-                  <div className="mt-3 grid grid-cols-10 gap-3">
-                    <div className="col-span-5">
-                      <label
-                        htmlFor={`hs-role`}
-                        className="block text-md font-medium mb-2 dark:text-color4"
-                      >
-                        Role
-                      </label>
-                      {roles.map((data) => (
-                        <InputRadio
-                          key={data.value}
-                          name={data.value}
-                          title={"Role"}
-                          checked={role === data.value}
-                          value={data.value}
-                          inputChange={(e) => setRole(e.target.value)}
-                          placeholder={data.name}
-                        />
-                      ))}
-                    </div>
-                    <div className="col-span-5">
-                      <label
-                        htmlFor={`hs-is-active`}
-                        className="block text-md font-medium mb-2 dark:text-color4"
-                      >
-                        Is Active
-                      </label>
-                      <SwitchToggle
-                        status={isActive}
-                        onChange={(e) => {
-                          setIsActive(e.target.checked);
-                        }}
-                      />
-                    </div>
-                  </div>
-                </ModalCore>
+                <ModalAddUsers
+                  token={token}
+                  roles={roles}
+                  open={openModal}
+                  setOpen={() => setOpenModal(false)}
+                />
 
                 {/* MODALS UPDATE */}
-                {editModal && currentItem && (
-                  <ModalCore
-                    title={"Update User"}
-                    btnTitle={"Update"}
-                    formSubmit={updateUser}
-                    openModal={editModal}
-                    actClose={() => setEditModal(false)}
-                  >
-                    <div className="mt-10 grid grid-cols-10 gap-3">
-                      <InputText
-                        name={"name"}
-                        title={"Name"}
-                        type={"text"}
-                        value={currentItem.name}
-                        inputChange={handleChange}
-                        placeholder={"Suika"}
-                      />
-                      <InputText
-                        name={"email"}
-                        title={"Email"}
-                        type={"email"}
-                        value={currentItem.email}
-                        inputChange={handleChange}
-                        placeholder={"dev@suika.pw"}
-                      />
-                    </div>
-                    <div className="mt-3 grid grid-cols-10 gap-3">
-                      <InputText
-                        name={"password"}
-                        title={"Password"}
-                        type={"password"}
-                        value={currentItem.password}
-                        inputChange={handleChange}
-                        placeholder={"*****"}
-                      />
-                      <InputText
-                        name={"confPassword"}
-                        title={"Conf Password"}
-                        type={"password"}
-                        value={currentItem.confPassword}
-                        inputChange={handleChange}
-                        placeholder={"*****"}
-                      />
-                    </div>
-                    <div className="mt-3 grid grid-cols-10 gap-3">
-                      <div className="col-span-5">
-                        <label
-                          htmlFor={`hs-role`}
-                          className="block text-md font-medium mb-2 dark:text-color4"
-                        >
-                          Role
-                        </label>
-                        {roles.map((data) => (
-                          <InputRadio
-                            key={data.value}
-                            name={"role"}
-                            title={"Role"}
-                            checked={currentItem.role === data.value}
-                            value={data.value}
-                            inputChange={handleChange}
-                            placeholder={data.name}
-                          />
-                        ))}
-                      </div>
-                      <div className="col-span-5">
-                        <label
-                          htmlFor={`hs-is-active`}
-                          className="block text-md font-medium mb-2 dark:text-color4"
-                        >
-                          Is Active
-                        </label>
-                        <SwitchToggle
-                          status={currentItem.is_active}
-                          onChange={handleChange}
-                          name={"is_active"}
-                        />
-                      </div>
-                    </div>
-                  </ModalCore>
-                )}
+                <ModalUpdateUsers
+                  token={token}
+                  roles={roles}
+                  open={editModal}
+                  setOpen={() => setEditModal(false)}
+                  data={currentItem}
+                  handleChange={(e) => handleChange(e)}
+                />
               </>
             )}
           </div>,

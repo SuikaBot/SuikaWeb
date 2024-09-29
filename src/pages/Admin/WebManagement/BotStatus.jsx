@@ -12,6 +12,8 @@ import ModalCore from "../../../components/General/Modals/ModalCore";
 import InputText from "../../../components/General/Modals/InputText";
 import { useNavigate } from "react-router-dom";
 import ActionsMenu from "../../../components/General/DataTables/ActionsMenu";
+import { ListLoading } from "../../../components/General/Loading";
+import BreadcrumbsMain from "../../../components/_Admin/Breadcrumbs/BreadcrumbsMain";
 
 const BotStatus = () => {
   const navigate = useNavigate();
@@ -278,8 +280,18 @@ const BotStatus = () => {
 
         {[
           <div key={2}>
+            <BreadcrumbsMain />
             {loading === true ? (
-              "loading..."
+              <div className="container mx-auto p-4">
+                <CustomHeader
+                  title="Manage SuikaBots"
+                  description="Manage suikabot whatsapp data here"
+                  buttonText="+ Add SuikaBot"
+                  onButtonClick={() => setOpenModal(true)}
+                  overlay={"add-bots-modal"}
+                />
+                <ListLoading />
+              </div>
             ) : (
               <>
                 <div className="container mx-auto p-4">

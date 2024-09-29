@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import PropTypes from "prop-types";
 
 const LoadingSpinner = ({ size, color, name }) => {
   return (
@@ -21,7 +20,7 @@ const BoxLoading = () => {
     <motion.div
       whileHover={{ scale: 1.04 }}
       whileTap={{ scale: 0.95 }}
-      className="border transition active:shadow-md hover:shadow-md active:hover:border-transparent text-start p-4 md:p-5 rounded-xl text-gray-600 bg-gray-200"
+      className="border transition active:shadow-md hover:shadow-md active:hover:border-transparent text-start p-4 md:p-5 rounded-xl text-gray-600 bg-neutral-50"
     >
       <span className="animate-pulse flex space-x-4">
         <div className="rounded-full bg-gray-400 h-10 w-10"></div>
@@ -43,7 +42,7 @@ const BoxImgLoading = () => {
     <motion.div
       whileHover={{ scale: 1.04 }}
       whileTap={{ scale: 0.95 }}
-      className="bg-gray-200 max-w-full p-4 border border-gray-200 rounded shadow md:p-6 lg:ml-20"
+      className="bg-gray-200 max-w-full p-4 border border-gray-200 rounded shadow md:p-6"
     >
       <div className="animate-pulse">
         <div className="flex items-center justify-center h-48 mb-4 bg-gray-400 rounded dark:bg-gray-700">
@@ -83,10 +82,98 @@ const BoxImgLoading = () => {
   );
 };
 
-LoadingSpinner.propTypes = {
-  size: PropTypes.number,
-  color: PropTypes.string,
-  name: PropTypes.string,
+const ImgLoading = ({ type, w, h }) => {
+  return (
+    <svg
+      className={`animate-pulse w-${w} h-${h} text-gray-200 dark:text-gray-600 ${type}`}
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor"
+      viewBox="0 0 20 18"
+    >
+      <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z" />
+    </svg>
+  );
 };
 
-export { LoadingSpinner, BoxLoading, BoxImgLoading };
+const TextLoading = ({ h1, h2, w1, w2, styles, hide1, hide2 }) => {
+  return (
+    <>
+      <span className="animate-pulse flex space-x-1 my-1">
+        <div
+          className={`h-${h1} bg-gray-400 ${hide1} rounded-full dark:bg-gray-700 w-${w1} ${styles}`}
+        ></div>
+        <div
+          className={` h-${h2} bg-gray-400 ${hide2} rounded-full dark:bg-gray-700 w-${w2} ${styles}`}
+        ></div>
+      </span>
+    </>
+  );
+};
+
+const ManyTextLoading = () => {
+  return (
+    <div className="max-w-sm animate-pulse">
+      <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
+      <div className="h-2 bg-gray-300 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></div>
+      <div className="h-2 bg-gray-300 rounded-full dark:bg-gray-700 mb-2.5"></div>
+      <div className="h-2 bg-gray-300 rounded-full dark:bg-gray-700 max-w-[330px] mb-2.5"></div>
+      <div className="h-2 bg-gray-300 rounded-full dark:bg-gray-700 max-w-[300px] mb-2.5"></div>
+      <div className="h-2 bg-gray-300 rounded-full dark:bg-gray-700 max-w-[360px]"></div>
+      <span className="sr-only">Loading...</span>
+    </div>
+  );
+};
+
+const ListLoading = () => {
+  return (
+    <div className="w-full p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700">
+      <div className="flex items-center justify-between">
+        <div>
+          <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+          <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+        </div>
+        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+      </div>
+      <div className="flex items-center justify-between pt-4">
+        <div>
+          <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+          <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+        </div>
+        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+      </div>
+      <div className="flex items-center justify-between pt-4">
+        <div>
+          <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+          <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+        </div>
+        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+      </div>
+      <div className="flex items-center justify-between pt-4">
+        <div>
+          <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+          <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+        </div>
+        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+      </div>
+      <div className="flex items-center justify-between pt-4">
+        <div>
+          <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+          <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+        </div>
+        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+      </div>
+      <span className="sr-only">Loading...</span>
+    </div>
+  );
+};
+
+export {
+  LoadingSpinner,
+  BoxLoading,
+  BoxImgLoading,
+  ImgLoading,
+  TextLoading,
+  ManyTextLoading,
+  ListLoading,
+};
