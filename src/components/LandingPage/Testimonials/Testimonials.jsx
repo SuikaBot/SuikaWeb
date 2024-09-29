@@ -202,7 +202,7 @@ const Testimonials = () => {
   const settings = (index) => ({
     infinite: true,
     dots: false,
-    speed: index % 2 === 0 ? 4500 : 7000,
+    speed: index % 2 === 0 ? 7500 : 12000,
     autoplay: true,
     autoplaySpeed: 0,
     cssEase: "linear",
@@ -215,12 +215,12 @@ const Testimonials = () => {
 
   return (
     <section id="kata-mereka">
-      <div className="w-full py-20 bg-neutral-100">
+      <div className="w-full py-20 ">
         <div data-aos="fade-up" data-aos-duration="500">
           <h2 className="text-center font-bold text-3xl lg:text-4xl text-gray-800">
             Apa Kata Mereka
           </h2>
-          <HR.Icon className="bg-emerald-600" />
+          <HR.Icon className="bg-emerald-700" />
         </div>
         <div className="grid grid-cols-1 gap-5 md:grid-cols-1 lg:grid-cols-1 ">
           {/* Generate swipers based on chunks of feedback data */}
@@ -232,7 +232,11 @@ const Testimonials = () => {
             >
               <Slider {...settings(index)}>
                 {chunk.map((feedback, i) => (
-                  <TestimonialCard key={i} isLoading={loading} />
+                  <TestimonialCard
+                    key={i}
+                    isLoading={loading}
+                    data={feedback}
+                  />
                 ))}
               </Slider>
             </div>
