@@ -11,7 +11,7 @@ const ContentBox = ({
   hidden_icon,
 }) => {
   return (
-    <div className="p-4 md:p-5 min-h-[410px] flex flex-col bg-white border shadow-md hover:shadow-lg rounded-xl">
+    <div className="p-4 md:p-5 min-h-[410px] flex flex-col transition bg-white border shadow-sm hover:shadow-md rounded-xl">
       {/* <!-- Header --> */}
       <div className="flex justify-between items-center">
         <div>

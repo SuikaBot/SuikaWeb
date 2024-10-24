@@ -6,7 +6,7 @@ const Breadcrumb = ({ breadcrumbs }) => {
       {breadcrumbs.map((breadcrumb, index) => (
         <li
           key={index}
-          className="flex items-center text-sm text-gray-800 dark:text-neutral-400"
+          className="flex items-center text-sm font-medium text-slate-800 text-opacity-70 "
         >
           <p className="capitalize">{breadcrumb}</p>
           {index < breadcrumbs.length - 1 && (

@@ -11,7 +11,7 @@ const InputRadio = ({
     <>
       <label
         htmlFor={`hs-${value}-form`}
-        className="max-w-xs flex p-3 my-2 w-full bg-white border border-color4 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500"
+        className="w-full flex p-3 my-2 bg-white border border-color4 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500"
       >
         <input
           type="radio"

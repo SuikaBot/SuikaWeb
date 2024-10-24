@@ -12,7 +12,16 @@ const ListBot = () => {
   const getSuikaBotList = async () => {
     try {
       const response = await axios.get(ENDPOINTS.BOTS);
-      setBots(response.data.data.suikaBotList);
+      const data = response.data.data.suikaBotList;
+
+      const sortedBots = data.sort((a, b) => {
+        if (a.status === b.status) {
+          return new Date(a.created_at) - new Date(b.created_at); // Urutkan berdasarkan created_at jika status sama
+        }
+        return a.status ? -1 : 1; // Aktif di atas
+      });
+
+      setBots(sortedBots);
     } catch (error) {
       ("");
     } finally {
@@ -105,7 +114,7 @@ const ListBot = () => {
                             ? `(${bot.reason})`
                             : ""
                         }`}
-                        phone={bot.no_wa}
+                        phone={bot.bot_id}
                         reason={bot.reason}
                         onClick={(e) => handleTabClick(tabId, e)}
                       />
@@ -138,7 +147,7 @@ const ListBot = () => {
                           linkActive={bot.status}
                           filter={bot.status ? "" : "grayscale"}
                           version={bot.version}
-                          phone={bot.no_wa}
+                          phone={bot.bot_id}
                         />
                       </div>
                     );

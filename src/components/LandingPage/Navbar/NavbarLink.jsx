@@ -69,9 +69,6 @@ const Navbar404 = () => {
                   >
                     <Link
                       to={"/"}
-                      smooth={true}
-                      spy={true}
-                      duration={500}
                       className="hover:cursor-pointer text-gray-500 hover:text-gray-800 hover:border-b hover:border-gray-800 transition text-semibold duration-150 hover:bg-color1 sm:hover:bg-transparent  block py-2 px-3 rounded md:p-0"
                     >
                       {nav.name}

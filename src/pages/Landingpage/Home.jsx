@@ -1,7 +1,4 @@
-import { Helmet } from "react-helmet-async";
-
 import About from "../../components/LandingPage/About/About";
-import AnnounceBanner from "../../components/LandingPage/AnnounceBanner/AnnounceBanner";
 import Footer from "../../components/LandingPage/Footer/Footer";
 import Hero from "../../components/LandingPage/Hero/Hero";
 import ListBot from "../../components/LandingPage/ListBot/ListBot";
@@ -14,9 +11,6 @@ import TraktirLeaderboard from "../../components/LandingPage/TraktirLeaderboard/
 const Home = () => {
   return (
     <>
-      <Helmet>
-        <title>SuikaBot</title>
-      </Helmet>
       <section className="main">
         <Navbar />
         <main id="content">

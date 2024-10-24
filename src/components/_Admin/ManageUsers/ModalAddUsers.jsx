@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -10,11 +9,10 @@ import InputText from "../../General/Modals/InputText";
 import InputRadio from "../../General/Modals/InputRadio";
 import SwitchToggle from "../../General/DataTables/SwitchToggle";
 
-const ModalAddUsers = ({ token, roles, open, setOpen }) => {
-  const navigate = useNavigate();
-
+const ModalAddUsers = ({ token, roles, open, setOpen, render }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confPassword, setConfPassword] = useState("");
   const [role, setRole] = useState();
@@ -28,6 +26,7 @@ const ModalAddUsers = ({ token, roles, open, setOpen }) => {
         {
           name: name,
           email: email,
+          username: username,
           password: password,
           confPassword: confPassword,
           role: role,
@@ -40,12 +39,11 @@ const ModalAddUsers = ({ token, roles, open, setOpen }) => {
         }
       );
 
+      render();
       Swal.fire({
         title: "Success Add Data",
         icon: "success",
         confirmButtonColor: "#3085d6",
-      }).then(() => {
-        navigate(0);
       });
     } catch (error) {
       if (error.response.data.errors) {
@@ -85,7 +83,7 @@ const ModalAddUsers = ({ token, roles, open, setOpen }) => {
       openModal={open}
       actClose={() => setOpen(false)}
     >
-      <div className="mt-10 grid grid-cols-10 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-10 gap-3">
         <InputText
           name={"name"}
           title={"Name"}
@@ -103,7 +101,7 @@ const ModalAddUsers = ({ token, roles, open, setOpen }) => {
           placeholder={"dev@suika.pw"}
         />
       </div>
-      <div className="mt-3 grid grid-cols-10 gap-3">
+      <div className="mt-3 grid grid-cols-1 sm:grid-cols-10 gap-3">
         <InputText
           name={"password"}
           title={"Password"}
@@ -121,7 +119,31 @@ const ModalAddUsers = ({ token, roles, open, setOpen }) => {
           placeholder={"*****"}
         />
       </div>
-      <div className="mt-3 grid grid-cols-10 gap-3">
+      <div className="mt-3 grid grid-cols-1 sm:grid-cols-10 gap-3">
+        <InputText
+          name={"username"}
+          title={"Username"}
+          type={"text"}
+          value={username}
+          inputChange={(e) => setUsername(e.target.value)}
+          placeholder={"SuikaDev123"}
+        />
+
+        <div className="col-span-5">
+          <label
+            htmlFor={`hs-is_active`}
+            className="block text-md font-medium mb-2"
+          >
+            Active User
+          </label>
+          <SwitchToggle
+            status={isActive}
+            onChange={(e) => setIsActive(e.target.checked)}
+            name={"is_active"}
+          />
+        </div>
+      </div>
+      <div className="mt-3 grid grid-cols-1 sm:grid-cols-10 gap-3">
         <div className="col-span-5">
           <label
             htmlFor={`hs-role`}
@@ -140,20 +162,6 @@ const ModalAddUsers = ({ token, roles, open, setOpen }) => {
               placeholder={data.name}
             />
           ))}
-        </div>
-        <div className="col-span-5">
-          <label
-            htmlFor={`hs-is-active`}
-            className="block text-md font-medium mb-2 dark:text-color4"
-          >
-            Is Active
-          </label>
-          <SwitchToggle
-            status={isActive}
-            onChange={(e) => {
-              setIsActive(e.target.checked);
-            }}
-          />
         </div>
       </div>
     </ModalCore>

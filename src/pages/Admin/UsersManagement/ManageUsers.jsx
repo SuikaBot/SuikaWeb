@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
@@ -19,7 +20,9 @@ import BreadcrumbsMain from "../../../components/_Admin/Breadcrumbs/BreadcrumbsM
 
 const ManageUsers = () => {
   const navigate = useNavigate();
-  const token = JSON.parse(localStorage.getItem("user_data")).access_token;
+  const token =
+    useSelector((state) => state.data_user.access_token) ||
+    localStorage.getItem("token");
 
   const [openModal, setOpenModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
@@ -50,12 +53,44 @@ const ManageUsers = () => {
     setEditModal(true);
   };
 
+  const getDataUsers = async () => {
+    try {
+      const response = await axios.get(ENDPOINTS.USERS, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const usersData = response.data.data;
+      setUsers(usersData);
+
+      const initialIsActiveState = {};
+      usersData.forEach((user) => {
+        initialIsActiveState[user.admin_id] = user.is_active;
+      });
+      setIsActive(initialIsActiveState);
+
+      const activeUsersCount = usersData.filter(
+        (user) => user.is_active
+      ).length;
+      setActivatedUser(activeUsersCount);
+    } catch (error) {
+      console.log(error);
+      if (error.response.status === 403) {
+        localStorage.removeItem("user_data");
+        navigate("/sb/login");
+      }
+      console.error("Failed to fetch data", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const activateUser = async (e, user) => {
     const { checked } = e.target;
 
     try {
       await axios.patch(
-        ENDPOINTS.USERS_ID(user.uuid),
+        ENDPOINTS.USERS_ID(user.admin_id),
         { is_active: checked },
         {
           headers: {
@@ -65,7 +100,7 @@ const ManageUsers = () => {
       );
 
       setIsActive((prevState) => {
-        const updatedState = { ...prevState, [user.uuid]: checked };
+        const updatedState = { ...prevState, [user.admin_id]: checked };
 
         const activeUsersCount =
           Object.values(updatedState).filter(Boolean).length;
@@ -96,7 +131,7 @@ const ManageUsers = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      const userName = response.data.name;
+      const userName = response.data.data.username;
 
       const result = await Swal.fire({
         title: "Sure?",
@@ -114,12 +149,11 @@ const ManageUsers = () => {
           },
         });
 
+        getDataUsers();
         await Swal.fire({
           title: "Success Delete User",
           icon: "success",
           confirmButtonColor: "#3085d6",
-        }).then(() => {
-          // navigate(0);
         });
       }
     } catch (error) {
@@ -134,38 +168,6 @@ const ManageUsers = () => {
   };
 
   useEffect(() => {
-    const getDataUsers = async () => {
-      try {
-        const response = await axios.get(ENDPOINTS.USERS, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const usersData = response.data.data;
-        setUsers(usersData);
-
-        const initialIsActiveState = {};
-        usersData.forEach((user) => {
-          initialIsActiveState[user.uuid] = user.is_active;
-        });
-        setIsActive(initialIsActiveState);
-
-        const activeUsersCount = usersData.filter(
-          (user) => user.is_active
-        ).length;
-        setActivatedUser(activeUsersCount);
-      } catch (error) {
-        console.log(error);
-        if (error.response.status === 403) {
-          localStorage.removeItem("user_data");
-          navigate("/sb/login");
-        }
-        console.error("Failed to fetch data", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     getDataUsers();
   }, [token, navigate]);
 
@@ -177,6 +179,7 @@ const ManageUsers = () => {
     { name: "No", selector: (row, index) => index + 1 + ".", sortable: true },
     { name: "Name", selector: (row) => row.name, sortable: true },
     { name: "Email", selector: (row) => row.email, sortable: true },
+    { name: "Username", selector: (row) => row.username, sortable: true },
     { name: "Role", selector: (row) => row.role, sortable: true },
     {
       name: "Activated User",
@@ -184,14 +187,14 @@ const ManageUsers = () => {
       cell: (row) => (
         <SwitchToggle
           status={
-            isActive[row.uuid] !== undefined
-              ? isActive[row.uuid]
+            isActive[row.admin_id] !== undefined
+              ? isActive[row.admin_id]
               : row.is_active
           }
           onChange={(e) =>
             activateUser(e, {
               is_active: row.is_active,
-              uuid: row.uuid,
+              admin_id: row.admin_id,
               name: row.name,
             })
           }
@@ -205,7 +208,7 @@ const ManageUsers = () => {
       cell: (row) => (
         <ActionsMenu
           onEdit={() => openEditModal(row)}
-          onDelete={() => deleteUser(row.uuid)}
+          onDelete={() => deleteUser(row.admin_id)}
         />
       ),
     },
@@ -253,8 +256,9 @@ const ManageUsers = () => {
         ]}
         {[
           <div key={2}>
+            <BreadcrumbsMain />
             {loading ? (
-              <div className="container p-4">
+              <div className="container mx-auto p-4">
                 <CustomHeader
                   title="Manage Users"
                   description="Manage users data here"
@@ -266,7 +270,7 @@ const ManageUsers = () => {
               </div>
             ) : (
               <>
-                <div className="container p-4">
+                <div className="container mx-auto p-4">
                   <CustomHeader
                     title="Manage Users"
                     description="Manage users data here"
@@ -288,6 +292,7 @@ const ManageUsers = () => {
                   roles={roles}
                   open={openModal}
                   setOpen={() => setOpenModal(false)}
+                  render={() => getDataUsers()}
                 />
 
                 {/* MODALS UPDATE */}
@@ -298,6 +303,7 @@ const ManageUsers = () => {
                   setOpen={() => setEditModal(false)}
                   data={currentItem}
                   handleChange={(e) => handleChange(e)}
+                  render={() => getDataUsers()}
                 />
               </>
             )}

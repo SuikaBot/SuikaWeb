@@ -1,7 +1,8 @@
 const BASE_URL_API = import.meta.env.VITE_BASE_URL_API;
+const BASE_URL_SUPPORT_BOT = import.meta.env.VITE_BASE_URL_SUPPORT_BOT;
 
 const BASE_URL_WEB = BASE_URL_API + "/web";
-const BASE_URL_WA = BASE_URL_API + "/wa";
+// const BASE_URL_WA = BASE_URL_API + "/wa";
 const BASE_URL_UNIVERSAL = BASE_URL_API;
 
 export const ENDPOINTS = {
@@ -15,7 +16,7 @@ export const ENDPOINTS = {
 
   //   USER API
   USERS: `${BASE_URL_WEB}/users`,
-  USERS_ID: (id) => `${BASE_URL_WEB}/users/${id}`,
+  USERS_ID: (admin_id) => `${BASE_URL_WEB}/users/${admin_id}`,
 
   //   BOT LIST API
   BOTS: `${BASE_URL_WEB}/suika-bot-list`,
@@ -35,4 +36,7 @@ export const ENDPOINTS = {
     `${BASE_URL_UNIVERSAL}/find-identity/${identity}`,
   UPDATE_IDENTITIES: (identity) =>
     `${BASE_URL_UNIVERSAL}/update-identity/${identity}`,
+
+  // Restart SuikaBot
+  RESTART_SUIKABOT: `${BASE_URL_SUPPORT_BOT}/negronta`,
 };

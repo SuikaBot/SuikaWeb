@@ -12,7 +12,6 @@ const ShortenUrl = () => {
     const fetchOriginalUrl = async () => {
       try {
         const response = await axios.get(ENDPOINTS.GET_SHORTEN_URL(shortUrl));
-        console.log(response);
         window.location.href = response.data.original_url;
       } catch (error) {
         // console.error("Error fetching the original URL:", error);

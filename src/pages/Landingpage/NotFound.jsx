@@ -5,8 +5,8 @@ import Zoom from "react-medium-image-zoom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Navbar404 from "../../components/LandingPage/Navbar/NavbarLink";
-import Footer from "../../components/LandingPage/Footer/Footer";
 import imgNotFound from "../../assets/404.svg";
+import FooterComponent from "../../components/LandingPage/Footer/FooterComponent";
 
 const NotFound = () => {
   return (
@@ -59,7 +59,7 @@ const NotFound = () => {
             </div>
           </main>
         </div>
-        <Footer />
+        <FooterComponent />
       </section>
     </>
   );

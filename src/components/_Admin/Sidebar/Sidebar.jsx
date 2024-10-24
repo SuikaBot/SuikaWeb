@@ -126,6 +126,11 @@ const Sidebar = () => {
                                   }
                                   to={subMenu.path}
                                 >
+                                  <FontAwesomeIcon
+                                    icon={subMenu.icon}
+                                    size="xs"
+                                    className="mr-2"
+                                  />
                                   {subMenu.name}
                                 </NavLink>
                               </li>

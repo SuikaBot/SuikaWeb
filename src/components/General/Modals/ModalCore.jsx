@@ -11,7 +11,7 @@ const ModalCore = ({
   return (
     <>
       <Modal
-        className="bg-black bg-opacity-60"
+        className="bg-black bg-opacity-70 px-3"
         show={openModal}
         position={"center"}
         onClose={() => actClose()}

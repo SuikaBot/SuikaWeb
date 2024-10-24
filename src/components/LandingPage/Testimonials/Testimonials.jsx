@@ -208,7 +208,7 @@ const Testimonials = () => {
     cssEase: "linear",
     slidesToShow: 5.6,
     rtl: index % 2 === 0 ? true : false,
-    pauseOnHover: true,
+    pauseOnHover: false,
     responsive: responsive,
     arrows: false,
   });

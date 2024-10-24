@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import SuikaLogo from "../../../assets/favicon.svg";
 import { useState } from "react";
-import { ImgLoading } from "../../General/Loading";
+import { LoadingSpinner } from "../../General/Loading";
 
 const Hero = () => {
   const [loading, setLoading] = useState(true);
@@ -22,8 +22,7 @@ const Hero = () => {
         <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10">
           <div className="flex justify-center items-center">
             <Zoom>
-              {loading && <p>{`"Loading Icon"`}</p>}
-
+              {loading && <LoadingSpinner />}
               <img
                 className={`h-40 md:h-60 ${loading ? "hidden" : "block"}`}
                 onLoad={handleLoad}
@@ -34,17 +33,17 @@ const Hero = () => {
           </div>
 
           <div className="mt-5 max-w-xl text-center mx-auto">
-            <h1 className="block font-bold text-gray-800 text-4xl md:text-5xl lg:text-6xl">
+            <h2 className="block font-bold text-gray-800 text-4xl md:text-5xl lg:text-6xl">
               Suika<span style={{ color: "#1490D6" }}>Bot</span>
-            </h1>
+            </h2>
           </div>
 
           <div className="mt-5 max-w-3xl text-center mx-auto">
-            <p className="text-lg text-gray-700">
-              Sebuah Bot dengan berbagai fitur berguna bagi kamu yang berjalan
-              pada WhatsApp, ketik <span className="font-bold">.menu</span>{" "}
-              untuk melihat list perintah bot.
-            </p>
+            <h1 className="text-lg text-gray-700">
+              Sebuah Bot dengan berbagai fitur berguna untuk kamu di WhatsApp,
+              ketik <span className="font-bold">.menu</span> untuk melihat list
+              perintah yang tersedia.
+            </h1>
           </div>
 
           <div className="mt-8 gap-3 flex justify-center">

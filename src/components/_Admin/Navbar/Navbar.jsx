@@ -2,20 +2,37 @@ import { Link } from "react-router-dom";
 
 import SuikaIcon from "../../../assets/suika-icon-text.webp";
 import LogoutComponent from "../../General/Auth/LogoutComponent";
-import { useUser } from "../../../context/UserContext";
-import { Avatar } from "flowbite-react";
+import { Avatar, Dropdown } from "flowbite-react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { getDataUser } from "../../../features/actions";
 
 const Navbar = () => {
-  const { getUserData } = useUser();
-  const data = getUserData();
+  const dispatch = useDispatch();
 
-  const words = data.name.split(" ");
+  const [initialProfile, setInitialProfile] = useState("");
+  const [data, setData] = useState([]);
+  const token =
+    useSelector((state) => state.data_user.access_token) ||
+    localStorage.getItem("token");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await dispatch(getDataUser(token));
+      setData(data);
+      setInitialProfile(data.name);
+    };
+
+    fetchData();
+  }, [token, dispatch, data.length]);
+
+  const words = initialProfile.split(" ");
   const initials = words.map((word) => word.charAt(0).toUpperCase()).join("");
 
   return (
     <>
-      <nav className="sticky top-0 inset-x-0  z-30 w-full bg-gradient-to-b from-color1 to-color1-dark border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-        <div className="px-3 py-3 lg:px-5 lg:pl-3">
+      <nav className="fixed top-0 inset-x-0 z-30 w-full bg-gradient-to-b from-color1 to-color1-dark border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <div className="px-3 py-3 lg:px-5 lg:pl-5">
           <div className="flex items-center justify-between">
             <div className="flex items-center justify-start">
               <button
@@ -51,8 +68,12 @@ const Navbar = () => {
                   ></path>
                 </svg>
               </button>
-              <Link to="/sb/dashboard" className="flex ml-2 md:mr-24">
-                <img src={SuikaIcon} className="h-8 mr-3" alt="FlowBite Logo" />
+              <Link to="/sb/dashboard" className="flex ml-2 md:mr-12">
+                <img
+                  src={SuikaIcon}
+                  className="h-7 sm:h-10 mr-3"
+                  alt="FlowBite Logo"
+                />
                 {/* <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
                   Flowbite
                 </span> */}
@@ -110,7 +131,7 @@ const Navbar = () => {
                   ></path>
                 </svg>
               </button>
-              <button
+              {/* <button
                 type="button"
                 data-dropdown-toggle="notification-dropdown"
                 className="p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700"
@@ -190,90 +211,9 @@ const Navbar = () => {
                     View all
                   </div>
                 </Link>
-              </div>
+              </div> */}
 
               {/* <button
-                type="button"
-                data-dropdown-toggle="apps-dropdown"
-                className="hidden p-2 text-gray-500 rounded-lg sm:flex hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700"
-              >
-                <span className="sr-only">View notifications</span>
-                <svg
-                  className="w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
-                </svg>
-              </button>
-              <div
-                className="z-20 z-50 hidden max-w-sm my-4 overflow-hidden text-base list-none bg-white divide-y divide-gray-100 rounded shadow-lg dark:bg-gray-700 dark:divide-gray-600"
-                id="apps-dropdown"
-              >
-                <div className="block px-4 py-2 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                  Apps
-                </div>
-                <div className="grid grid-cols-3 gap-4 p-4">
-                  <a
-                    href="#"
-                    className="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600"
-                  >
-                    <svg
-                      className="mx-auto mb-1 text-gray-500 w-7 h-7 dark:text-gray-400"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z"
-                        clipRule="evenodd"
-                      ></path>
-                    </svg>
-                    <div className="text-sm font-medium text-gray-900 dark:text-white">
-                      Sales
-                    </div>
-                  </a>
-                  <a
-                    href="#"
-                    className="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600"
-                  >
-                    <svg
-                      className="mx-auto mb-1 text-gray-500 w-7 h-7 dark:text-gray-400"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
-                    </svg>
-                    <div className="text-sm font-medium text-gray-900 dark:text-white">
-                      Users
-                    </div>
-                  </a>
-                  <a
-                    href="#"
-                    className="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600"
-                  >
-                    <svg
-                      className="mx-auto mb-1 text-gray-500 w-7 h-7 dark:text-gray-400"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 2h10v7h-2l-1 2H8l-1-2H5V5z"
-                        clipRule="evenodd"
-                      ></path>
-                    </svg>
-                    <div className="text-sm font-medium text-gray-900 dark:text-white">
-                      Inbox
-                    </div>
-                  </a>
-                </div>
-              </div> */}
-              <button
                 id="theme-toggle"
                 data-tooltip-target="tooltip-toggle"
                 type="button"
@@ -301,35 +241,47 @@ const Navbar = () => {
                     clipRule="evenodd"
                   ></path>
                 </svg>
-              </button>
-              <div
+              </button> */}
+              {/* <div
                 id="tooltip-toggle"
                 role="tooltip"
                 className="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip"
               >
                 Toggle dark mode
                 <div className="tooltip-arrow" data-popper-arrow></div>
-              </div>
+              </div> */}
 
               {/* Sold */}
               <div className="flex items-center ml-3">
-                <div>
-                  <button
-                    type="button"
-                    className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                    id="user-menu-button-2"
-                    aria-expanded="true"
-                    data-dropdown-toggle="dropdown-2"
-                  >
-                    <span className="sr-only">Open user menu</span>
+                <Dropdown
+                  label={
                     <Avatar placeholderInitials={initials} img={""} rounded />
-                    {/* <img
-                      className="w-8 h-8 rounded-full"
-                      src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                      alt="user photo"
-                    /> */}
-                  </button>
-                </div>
+                  }
+                  arrowIcon={false}
+                  inline
+                >
+                  <Dropdown.Header>
+                    <span className="block text-base">{data.name}</span>
+                    <hr className="my-2" />
+                    <span className="block text-sm"> {data.role}</span>
+                    <span className="block truncate text-sm font-medium">
+                      {data.email}
+                    </span>
+                  </Dropdown.Header>
+                  <Dropdown.Item>
+                    <Link
+                      to={"/sb/dashboard"}
+                      className="block "
+                      role="menuitem"
+                    >
+                      Dashboard
+                    </Link>
+                  </Dropdown.Item>
+                  <Dropdown.Divider />
+                  <div className="m-2">
+                    <LogoutComponent />
+                  </div>
+                </Dropdown>
                 <div
                   className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
                   id="dropdown-2"
@@ -338,30 +290,16 @@ const Navbar = () => {
                     <p
                       className="text-sm text-gray-900 dark:text-white"
                       role="none"
-                    >
-                      {data.name} | as {data.role}
-                    </p>
+                    ></p>
                     <p
                       className="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
                       role="none"
-                    >
-                      {data.email}
-                    </p>
+                    ></p>
                   </div>
                   <ul className="py-1" role="none">
-                    <li>
-                      <Link
-                        to={"/sb/dashboard"}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                        role="menuitem"
-                      >
-                        Dashboard
-                      </Link>
-                    </li>
+                    <li></li>
                     <hr />
-                    <li className="mx-3 my-2">
-                      <LogoutComponent />
-                    </li>
+                    <li className="mx-3 my-2"></li>
                   </ul>
                 </div>
               </div>
@@ -369,87 +307,6 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-
-      {/* <header className="sticky top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-[48] w-full bg-white border-b text-sm py-2.5 lg:ps-[260px]">
-        <nav className="px-4 sm:px-6 flex basis-full items-center w-full mx-auto">
-          <div className="me-5 lg:me-0 lg:hidden">
-            <NavLink
-              className="flex-none rounded-md text-xl inline-block font-semibold focus:outline-none focus:opacity-80"
-              to={"/sb/dashboard"}
-              aria-label="Preline"
-            >
-              <img style={{ width: "35rem" }} src={SuikaIcon} alt="" />
-            </NavLink>
-          </div>
-
-          <div className="w-full flex items-center justify-end ms-auto md:justify-between gap-x-1 md:gap-x-3">
-            <Search />
-
-            <div className="flex flex-row items-center justify-end gap-1">
-              <button
-                type="button"
-                className="size-[38px] relative inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:bg-gray-400 disabled:opacity-50 disabled:pointer-events-none "
-              >
-                <FontAwesomeIcon
-                  className="shrink-0 size-4"
-                  icon="fa-regular fa-bell"
-                />
-                <span className="sr-only">Notifications</span>
-              </button>
-
-              <div className="hs-dropdown [--placement:bottom-right] relative inline-flex">
-                <button
-                  id="hs-dropdown-account"
-                  type="button"
-                  className="size-[38px] inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
-                  aria-haspopup="menu"
-                  aria-expanded="false"
-                  aria-label="Dropdown"
-                >
-                  <img
-                    className="shrink-0 size-[38px] rounded-full border border-gray-200"
-                    src={TempPic}
-                    alt="Avatar"
-                  />
-                </button>
-
-                <div
-                  className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 bg-white shadow-md rounded-lg mt-2 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full"
-                  role="menu"
-                  aria-orientation="vertical"
-                  aria-labelledby="hs-dropdown-account"
-                >
-                  <div className="py-3 px-5 bg-color3 rounded-t-lg">
-                    <p className="text-sm text-gray-100">Signed in as</p>
-                    <div className="text-sm font-medium text-gray-800 dark:text-neutral-200">
-                      <p className="">
-                        {data.name} ({data.role})
-                      </p>
-                      <small>{data.email}</small>
-                    </div>
-                  </div>
-                  <div className="p-1.5 space-y-0.5">
-                    <NavLink
-                      className="transition delay-75 flex items-center gap-x-3.5 py-2 px-3 mb-2 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
-                      to={"#"}
-                    >
-                      <FontAwesomeIcon
-                        className="shrink-0 size-4"
-                        icon="fa-regular fa-user"
-                      />
-                      Profile
-                    </NavLink>
-                    <hr />
-                    <div className="mt-4 py-2 first:pt-0 last:pb-0">
-                      <LogoutComponent />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </nav>
-      </header> */}
     </>
   );
 };

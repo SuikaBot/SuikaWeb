@@ -19,14 +19,14 @@ const AdminNotFound = () => {
         {[
           <div
             key={1}
-            className="max-w-[50rem] lg:ps-[260px] xl:ps-[0] flex flex-col mx-auto size-full my-8"
+            className="max-w-[50rem] lg:ps-[260px] xl:ps-[0] flex flex-col mx-auto size-full"
           >
-            <header className="mb-auto flex justify-center w-full py-4">
+            <header className="mb-auto flex justify-center w-full">
               <nav
                 className="px-4 sm:px-6 lg:px-8 text-center"
                 aria-label="Global"
               >
-                <p className="z-10 pt-10 flex-none text-xl font-semibold sm:text-3xl">
+                <p className="z-0 sm:pt-10 flex-none text-xl font-semibold sm:text-3xl">
                   . . . . . . . .
                 </p>
               </nav>

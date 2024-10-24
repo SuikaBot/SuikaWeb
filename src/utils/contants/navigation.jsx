@@ -29,17 +29,17 @@ const dashboardNav = [
       },
       {
         name: "Content",
-        icon: "fa-solid fa-user-group",
+        icon: "fa-solid fa-folder-tree",
         path: "#",
         sub_menu: [
           {
             name: "Feedbacks",
-            icon: "fa-solid fa-circle",
+            icon: "fa-regular fa-comments",
             path: "/sb/feedbacks",
           },
           {
             name: "Traktir Leaderboard",
-            icon: "fa-solid fa-circle",
+            icon: "fa-solid fa-piggy-bank",
             path: "/sb/traktir-leaderboard",
           },
         ],

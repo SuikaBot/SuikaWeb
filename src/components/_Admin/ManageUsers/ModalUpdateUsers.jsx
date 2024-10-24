@@ -1,5 +1,3 @@
-import { useNavigate } from "react-router-dom";
-
 import axios from "axios";
 import Swal from "sweetalert2";
 import { ENDPOINTS } from "../../../utils/contants/endpoint";
@@ -16,17 +14,17 @@ const ModalUpdateUsers = ({
   setOpen,
   data,
   handleChange,
+  render,
 }) => {
-  const navigate = useNavigate();
-
   const updateUser = async (e) => {
     e.preventDefault();
     try {
       await axios.patch(
-        ENDPOINTS.USERS_ID(data.uuid),
+        ENDPOINTS.USERS_ID(data.admin_id),
         {
           name: data.name,
           email: data.email,
+          username: data.username,
           password: data.password ? data.password : "",
           confPassword: data.confPassword ? data.confPassword : "",
           role: data.role,
@@ -39,12 +37,11 @@ const ModalUpdateUsers = ({
         }
       );
 
+      render();
       Swal.fire({
         title: "Success Update Data",
         icon: "success",
         confirmButtonColor: "#3085d6",
-      }).then(() => {
-        navigate(0);
       });
     } catch (error) {
       console.log(error);
@@ -68,13 +65,13 @@ const ModalUpdateUsers = ({
           openModal={open}
           actClose={() => setOpen(false)}
         >
-          <div className="mt-10 grid grid-cols-10 gap-3">
+          <div className="mt-10 grid grid-cols-1 sm:grid-cols-10 gap-3">
             <InputText
               name={"name"}
               title={"Name"}
               type={"text"}
               value={data.name}
-              inputChange={(e) => handleChange(e)}
+              inputChange={handleChange}
               placeholder={"Suika"}
             />
             <InputText
@@ -86,7 +83,7 @@ const ModalUpdateUsers = ({
               placeholder={"dev@suika.pw"}
             />
           </div>
-          <div className="mt-3 grid grid-cols-10 gap-3">
+          <div className="mt-3 grid grid-cols-1 sm:grid-cols-10 gap-3">
             <InputText
               name={"password"}
               title={"Password"}
@@ -104,7 +101,30 @@ const ModalUpdateUsers = ({
               placeholder={"*****"}
             />
           </div>
-          <div className="mt-3 grid grid-cols-10 gap-3">
+          <div className="mt-3 grid grid-cols-1 sm:grid-cols-10 gap-3">
+            <InputText
+              name={"username"}
+              title={"Username"}
+              type={"text"}
+              value={data.username}
+              inputChange={(e) => handleChange(e)}
+              placeholder={"SuikaDev123"}
+            />
+            <div className="col-span-5">
+              <label
+                htmlFor={`hs-is-active`}
+                className="block text-md font-medium mb-2 dark:text-color4"
+              >
+                Is Active
+              </label>
+              <SwitchToggle
+                status={data.is_active}
+                onChange={handleChange}
+                name={"is_active"}
+              />
+            </div>
+          </div>
+          <div className="mt-3 grid grid-cols-1 sm:grid-cols-10 gap-3">
             <div className="col-span-5">
               <label
                 htmlFor={`hs-role`}
@@ -123,19 +143,6 @@ const ModalUpdateUsers = ({
                   placeholder={role.name}
                 />
               ))}
-            </div>
-            <div className="col-span-5">
-              <label
-                htmlFor={`hs-is-active`}
-                className="block text-md font-medium mb-2 dark:text-color4"
-              >
-                Is Active
-              </label>
-              <SwitchToggle
-                status={data.is_active}
-                onChange={handleChange}
-                name={"is_active"}
-              />
             </div>
           </div>
         </ModalCore>

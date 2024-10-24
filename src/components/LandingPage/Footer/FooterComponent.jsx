@@ -1,7 +1,7 @@
 import SuikaLogo from "../../../assets/favicon.svg";
 import { Footer } from "flowbite-react";
 import { BsFacebook, BsGithub, BsInstagram } from "react-icons/bs";
-import { Link } from "react-scroll";
+import { Link } from "react-router-dom";
 
 const FooterComponent = () => {
   return (
@@ -32,29 +32,19 @@ const FooterComponent = () => {
               <Footer.Title title="Konten" />
               <Footer.LinkGroup col>
                 <Footer className="shadow-none cursor-pointer">
-                  <Link to="home" smooth={true} duration={500}>
-                    Utama
-                  </Link>
+                  <Link to="/">Utama</Link>
                 </Footer>
                 <Footer className="shadow-none cursor-pointer">
-                  <Link to="about" smooth={true} duration={500}>
-                    Tentang
-                  </Link>
+                  <Link to="/">Tentang</Link>
                 </Footer>
                 <Footer className="shadow-none cursor-pointer">
-                  <Link to="kata-mereka" smooth={true} duration={500}>
-                    Kata Mereka
-                  </Link>
+                  <Link to="/">Kata Mereka</Link>
                 </Footer>
                 <Footer className="shadow-none cursor-pointer">
-                  <Link to="traktir-leaderboard" smooth={true} duration={500}>
-                    Leaderboard
-                  </Link>
+                  <Link to="/">Leaderboard</Link>
                 </Footer>
                 <Footer className="shadow-none cursor-pointer">
-                  <Link to="list-bot" smooth={true} duration={500}>
-                    Nomor Bot
-                  </Link>
+                  <Link to="/">Nomor Bot</Link>
                 </Footer>
               </Footer.LinkGroup>
             </div>
