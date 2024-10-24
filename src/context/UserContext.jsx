@@ -28,6 +28,7 @@ export const UserProvider = ({ children }) => {
 
   const getUserData = () => {
     const data = JSON.parse(localStorage.getItem("user_data"));
+    // console.log(data);
 
     return data;
   };

@@ -3,9 +3,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { ENDPOINTS } from "../../../utils/contants/endpoint";
+import { useAuth } from "../../../provider/authProvider";
 
 const LogoutComponent = () => {
   const navigate = useNavigate();
+  const { setToken } = useAuth();
 
   const Logout = async () => {
     try {
@@ -24,9 +26,10 @@ const LogoutComponent = () => {
             icon: "success",
             confirmButtonColor: "#3085d6",
           }).then(() => {
-            axios.delete(ENDPOINTS.LOGOUT);
+            setToken();
             localStorage.clear();
-            navigate("/sb/login");
+            axios.delete(ENDPOINTS.LOGOUT);
+            navigate("/sb/login", { replace: true });
           });
         }
       });
