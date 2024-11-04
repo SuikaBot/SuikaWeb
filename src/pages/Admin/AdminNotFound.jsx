@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Zoom from "react-medium-image-zoom";
 
@@ -7,8 +7,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Layout from "../../components/_Admin/Layout/Layout";
 
 import imgNotFound from "../../assets/404.svg";
+import { useEffect } from "react";
 
 const AdminNotFound = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === "/sb/login") {
+      navigate("/sb/dashboard");
+    }
+  }, [navigate, location.pathname]);
+
   return (
     <>
       <Helmet>

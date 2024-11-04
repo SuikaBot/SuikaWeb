@@ -12,7 +12,7 @@ const formatString = (text) => {
   }
 };
 
-const Bot = ({ id, active, reason, name, phone, onClick }) => {
+const Bot = ({ id, active, reason, name, phone, onClick, status }) => {
   const getColorAndIcon = () => {
     if (reason === "Banned") {
       return {
@@ -28,7 +28,7 @@ const Bot = ({ id, active, reason, name, phone, onClick }) => {
         text: "text-amber-700",
         icon: "fa-solid fa-copy",
       };
-    } else if (reason === null || reason === "-") {
+    } else if (reason === null || (reason === "-" && status === true)) {
       return {
         hover: "bg-green-200",
         color: "bg-green-300",
@@ -37,10 +37,10 @@ const Bot = ({ id, active, reason, name, phone, onClick }) => {
       };
     } else {
       return {
-        hover: "bg-black-200",
-        color: "bg-black-300",
-        text: "text-black-600",
-        icon: "fa-regular fa-circle",
+        hover: "bg-red-200",
+        color: "bg-red-300",
+        text: "text-red-600",
+        icon: "fa-solid fa-ban",
       };
     }
   };

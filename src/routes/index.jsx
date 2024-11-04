@@ -33,7 +33,11 @@ const Routes = () => {
   // Define routes accessible only to authenticated users
   const routesForAuthenticatedOnly = [
     {
-      path: "/sb",
+      path: "/sb/",
+      element: <NotFound />,
+    },
+    {
+      path: "/sb/*",
       element: <ProtectedRoute />, // Wrap the component in ProtectedRoute
       children: [
         {

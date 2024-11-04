@@ -117,6 +117,7 @@ const ListBot = () => {
                         phone={bot.bot_id}
                         reason={bot.reason}
                         onClick={(e) => handleTabClick(tabId, e)}
+                        status={bot.status}
                       />
                     );
                   })

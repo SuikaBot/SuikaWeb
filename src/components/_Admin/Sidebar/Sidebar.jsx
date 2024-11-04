@@ -182,8 +182,12 @@ const Sidebar = () => {
               </div> */}
             </div>
           </div>
-          <div className="absolute bottom-0 left-0 justify-center hidden w-full p-4 space-x-4 bg-white lg:flex dark:bg-gray-800">
-            <a
+
+          <div>
+            <hr className="border-t border-gray-200 dark:border-gray-700 mx-3" />
+
+            <div className="bottom-0 left-0 justify-center w-full p-4 space-x-4 bg-white flex dark:bg-gray-800 ">
+              {/* <a
               href="#"
               className="inline-flex justify-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
             >
@@ -218,9 +222,39 @@ const Sidebar = () => {
               id="tooltip-settings"
               role="tooltip"
               className="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
-            >
+              >
               Settings page
               <div className="tooltip-arrow" data-popper-arrow></div>
+              </div> */}
+
+              <div data-tooltip-target="tooltip-settings">
+                <NavLink
+                  onClick={() => deleteDropdown()}
+                  to={"/"}
+                  className={({ isActive }) =>
+                    `shadow-md items-center px-3 py-2 text-md rounded-lg group ${
+                      isActive
+                        ? "text-gray-900 dark:text-gray-200 bg-color1 dark:bg-gray-700 font-semibold"
+                        : "text-gray-900 dark:text-gray-200 bg-neutral-100 hover:bg-color1 dark:hover:bg-gray-700"
+                    }`
+                  }
+                >
+                  <FontAwesomeIcon
+                    className="transition duration-75"
+                    size="sm"
+                    icon={" fa-solid fa-home"}
+                  />
+                  {/* <span className="ml-3">{"Landingpage"}</span> */}
+                </NavLink>
+                <div
+                  id="tooltip-settings"
+                  role="tooltip"
+                  className="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
+                >
+                  Home
+                  <div className="tooltip-arrow" data-popper-arrow></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
